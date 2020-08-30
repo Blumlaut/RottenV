@@ -38,7 +38,7 @@ Citizen.CreateThread(function()
 		local discord = GetPlayerSpecificIdentifier(client,"discord") 
 		local PlayerInfo = {}
 		deferrals.defer()
-		deferrals.update("Loading Player Data (0/3)")
+		deferrals.update("Loading Player Data (0/1)")
 		if not GetPlayerSpecificIdentifier(client,"steam") then 
 			deferrals.done("Identifier Authentication Failed. Please make sure Steam is running.")
 			return 
@@ -76,7 +76,7 @@ Citizen.CreateThread(function()
 
 		local failtime = 0
 		repeat
-			deferrals.update("Loading Player Data (1/3)")
+			deferrals.update("Loading Player Data (1/1)")
 			failtime=failtime+1
 			if failtime >= 40 then
 				cooked=false
@@ -84,7 +84,7 @@ Citizen.CreateThread(function()
 			Wait(500)
 		until (cooked == true or cooked == false)
 		if cooked == false then
-			deferrals.done("An Unknown Error occured while loading PlayerData 1/2.")
+			deferrals.done("An Unknown Error occured while loading PlayerData 1/1.")
 			return
 		end
 		local cooked=nil
@@ -96,22 +96,12 @@ Citizen.CreateThread(function()
 			discord = "discord:"..PreparedPlayerData[steamid].discord
 		end
 
-		local failtime = 0
-		repeat
-			deferrals.update("Loading Player Data (2/2)")
-			failtime=failtime+1
-			if failtime >= 40 then
-				cooked1=false
-			end
-			Wait(500)
-		until (cooked1 == true or cooked1 == false)
-
 
 
 		deferrals.update("Joining...")
 		Wait(500)
-		if cooked1 == false then
-			deferrals.done("An Unknown Error occured while loading PlayerData 2/2.")
+		if cooked == false then
+			deferrals.done("An Unknown Error occured while loading PlayerData 1/1.")
 			return
 		end
 		deferrals.done()
