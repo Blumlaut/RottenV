@@ -24,9 +24,6 @@ PreparedPlayerData = {}
 
 -- this script intercepts data send by clients that want to save their data, dirty but effective
 
-Queue.OnReady(function() 
-		Citizen.Trace("\nQueue Ready.")
-end)
 
 Citizen.CreateThread(function()
 	AddEventHandler('playerConnecting', function(name, setCallback, deferrals)
