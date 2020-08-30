@@ -22,7 +22,7 @@ end)
 
 Citizen.CreateThread(function()
 	local isSniper = false
-	while true do
+	while config.disableReticle do
 		Citizen.Wait(0)
 		if isWeapon and WeaponDamageType ~= 1 then			
 			SetPlayerLockon(ped, false)

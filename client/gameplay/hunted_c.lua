@@ -6,7 +6,7 @@ IsPlayerHunted = false
 RegisterNetEvent("Z:killedPlayer")
 AddEventHandler("Z:killedPlayer", function(playerId)
 	table.insert(KilledPlayers, playerId)
-	if #KilledPlayers >= 5 and not IsPlayerHunted then
+	if #KilledPlayers >= config.huntedAmount and not IsPlayerHunted then
 		local cx,cy,cz = GetEntityCoords(PlayerPedId(), true)
 		TriggerServerEvent("AddPlayerHunted", cx,cy,cz)
 		IsPlayerHunted = true

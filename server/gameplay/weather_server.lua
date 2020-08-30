@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]
 
 Citizen.CreateThread(function()
-	while true do
+	while config.enableDynoWeather do
 		Citizen.Wait(0)
 		randomizeSystems()
 		Citizen.Wait(WeatherConfig.randomizeTime)

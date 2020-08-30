@@ -42,11 +42,11 @@ Citizen.CreateThread(function()
 						end
 						local tempinv = nil
 
-						if os.time()-theSafe.creationTime > 604800 and os.time()-theSafe.creationTime < 634800 then
+						if os.time()-theSafe.creationTime > config.SafeExpirationTime*86400 and os.time()-theSafe.creationTime < ((config.SafeExpirationTime*86400)+(config.SafeUnlockTime*86400)) then
 							theSafe.passcode = "0000"
 							theSafe.visible = true
 							table.insert(safes,theSafe)
-						elseif os.time()-theSafe.creationTime > 634800 then
+						elseif os.time()-theSafe.creationTime > ((config.SafeExpirationTime*86400)+(config.SafeUnlockTime*86400)) then
 							exports['ghmattimysql']:execute('DELETE FROM safes WHERE id=@id', {id=theSafe.id}, function() end)
 						else
 							table.insert(safes,theSafe)

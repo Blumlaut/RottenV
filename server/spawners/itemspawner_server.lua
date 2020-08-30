@@ -1,6 +1,6 @@
 spawnedItems = {}
-local maxFood = 6
-local maxWeapons = 4
+local maxFood = config.maxSpawnedFood
+local maxWeapons = config.maxSpawnedWeapons
 
 
 

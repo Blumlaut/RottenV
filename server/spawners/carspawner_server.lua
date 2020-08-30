@@ -1,5 +1,5 @@
 spawnedCars = {}
-maxCars = 60
+maxCars = config.maxVehicles
 
 vehPollResults = {}
 

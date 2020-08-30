@@ -92,10 +92,12 @@ Citizen.CreateThread(function()
 			playerkillsthislife = 0
 			zombiekillsthislife = 0
 			infected = false
-			consumableItems.count[1] = 1.0
-			consumableItems.count[2] = 1.0
+			for i, count in pairs(config.startItems) do
+				consumableItems.count[i] = count
+			end
+			TriggerServerEvent("SetLegitimateMoney", config.startMoney)
+			consumableItems.count[17] = config.startMoney
 			StatSetInt("MP0_STAMINA", 40,1)
-			consumableItems.count[17] = 0
 			consumableItems.count[92] = 1 -- cb radio
 			-- set CB back to what we were on before dying
 			VoiceType = true
@@ -110,7 +112,7 @@ Citizen.CreateThread(function()
 			NetworkSetVoiceActive(true)
 			--
 			if LoadedPlayerData then
-				TriggerServerEvent("SetLegitimateMoney", 0)
+				TriggerServerEvent("SetLegitimateMoney", config.startMoney)
 			end
 			if possessed then
 				
@@ -120,11 +122,11 @@ Citizen.CreateThread(function()
 
 			if not customSkin or customSkin == "" then
 				if humanity > 800 then -- hero skin
-					currentPlayerModel = "s_m_m_chemsec_01"
+					currentPlayerModel = config.skins.hero
 				elseif humanity < 800 and humanity > 200 then -- neutral skin
-					currentPlayerModel = "s_m_y_armymech_01"
+					currentPlayerModel = config.skins.neutral
 				elseif humanity < 200 then -- bandit skin
-					currentPlayerModel = "s_m_y_xmech_02"
+					currentPlayerModel = config.skins.bandit
 				end
 			else
 				currentPlayerModel = customSkin

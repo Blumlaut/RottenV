@@ -144,16 +144,16 @@ Citizen.CreateThread( function()
 			locker_money = tonumber(data.locker_money) 
 
 			Citizen.Trace("\nRecieving Stats...")
-			local currentPlayerModel = "s_m_y_armymech_01"
+			local currentPlayerModel = config.skins.neutral
 			customSkin = data.customskin
 			
 			if not customSkin or customSkin == "" then
 				if humanity > 800 then -- hero skin
-					currentPlayerModel = "s_m_m_chemsec_01"
+					currentPlayerModel = config.skins.hero
 				elseif humanity < 800 and humanity > 200 then -- neutral skin
-					currentPlayerModel = "s_m_y_armymech_01"
+					currentPlayerModel = config.skins.neutral
 				elseif humanity < 200 then -- bandit skin
-					currentPlayerModel = "s_m_y_xmech_02"
+					currentPlayerModel = config.skins.bandit
 				end
 			else
 				currentPlayerModel = customSkin
@@ -462,14 +462,17 @@ AddEventHandler("playerRegistered", function()
 		ShutdownLoadingScreenNui() -- shut down loading screen
 		Citizen.Trace("\nshutting down loadscreen")
 		SetEntityCoords(PlayerPedId(), x, y, z+1.0, 0, 0, 0, false) -- teleport player to ground
-		consumableItems.count[17] = 0
-		TriggerServerEvent("SetLegitimateMoney", 0)
 		playerkillsthislife = 0
 		zombiekillsthislife = 0
 		wheelspins = 1
 		infected = false
-		consumableItems.count[1] = 1.0
-		consumableItems.count[2] = 1.0
+		for i, count in pairs(config.startItems) do
+			consumableItems.count[i] = count
+		end
+		TriggerServerEvent("SetLegitimateMoney", config.startMoney)
+		consumableItems.count[17] = config.startMoney
+
+
 		Wait(300)
 		N_0xd8295af639fd9cb8(PlayerPedId()) -- move camera back to player
 		Wait(8000)

@@ -38,7 +38,7 @@ AddEventHandler("playerSpawned", function(spawnInfo)
 end)
 
 Citizen.CreateThread(function()
-	while true do
+	while config.enableDynoWeather do
 		Citizen.Wait(1000 * 60)
 		TriggerServerEvent("dinoweather:syncWeather")
 	end

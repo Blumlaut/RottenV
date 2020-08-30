@@ -2,6 +2,10 @@ resource_manifest_version "05cfa83c-a124-4cfa-a768-c24a5811d8f9"
 dependency 'ghmattimysql'
 dependency 'pogressBar'
 
+shared_scripts {
+	"config/config.lua"
+}
+
 server_scripts {
 	"shared/gameplay/weatherconfig.lua",
 	"server/main.lua",
@@ -86,6 +90,7 @@ client_scripts {
 	"client/RichPresence.lua",
 	
 }
+
 
 resource_type 'map' { gameTypes = { fivem = true } }
 
