@@ -1,6 +1,5 @@
 resource_manifest_version "05cfa83c-a124-4cfa-a768-c24a5811d8f9"
 dependency 'ghmattimysql'
-dependency 'connectqueue'
 dependency 'pogressBar'
 
 server_scripts {
@@ -9,7 +8,6 @@ server_scripts {
 	"server/pingkick.lua",
 	"shared/useful/functions.lua",
 	"server/handlers/hosthandler.lua",
-	"@connectqueue/connectqueue.lua",
 	"server/db/dbServer.lua",
 	"server/db/dbServerSafes.lua",
 	"server/gameplay/drops.lua",
