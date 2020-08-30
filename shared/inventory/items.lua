@@ -1174,19 +1174,6 @@ consumableItems = {
 		sellloss = 0.45,
 		stockAmount = {0,0},
 	},
-	
-	{-- 96
-		name = "Magic Wand",
-		multipleCase = "Magic Wands",
-		desc = "Label Says: Magic Wand, i wonder what tricks i can perform with it?",
-		spawnChance = 1, 
-		randomFinds = {1,1},
-		property = "useWand",
-		consumable = false,
-		price = 10,
-		sellloss = 0.45,
-		stockAmount = {0,0},
-	},
 
 
 }

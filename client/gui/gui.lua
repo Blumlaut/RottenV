@@ -451,9 +451,6 @@ function UseUsable(property)
 	elseif property == "useCBAmateur" then
 		TriggerEvent("showNotification", "Press 'H' To Manage the CB Radio")
 		return false
-	elseif property == "useWand" then
-		TriggerEvent("showNotification", "I tried performing a magic trick, the Wand started vibrating, this thing is useless, i'll throw it away.")
-		return true
 	end
 	
 	
