@@ -22,7 +22,7 @@ CREATE TABLE `players` (
   `z` text CHARACTER SET latin1 COLLATE latin1_swedish_ci,
   `hunger` float NOT NULL DEFAULT '100',
   `thirst` float NOT NULL DEFAULT '100',
-  `inv` varchar(10000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '[]',
+  `inv` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
   `health` bigint(20) NOT NULL DEFAULT '200',
   `playerkillsthislife` bigint(20) DEFAULT '0',
   `zombiekillsthislife` bigint(20) NOT NULL DEFAULT '0',
@@ -34,8 +34,8 @@ CREATE TABLE `players` (
   `locker_money` int(11) NOT NULL DEFAULT '0',
   `wheelspins` int(11) DEFAULT '0',
   `playtime` varchar(32) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '0:0',
-  `currentQuest` varchar(10000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '{}',
-  `finishedQuests` varchar(140) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '{}',
+  `currentQuest` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
+  `finishedQuests` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL,
   `customskin` char(65) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
 
