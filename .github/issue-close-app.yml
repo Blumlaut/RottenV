@@ -1,5 +1,5 @@
 # Comment that will be sent if an issue is judged to be closed.
-comment: "Hi! Thank you for your issue, please make sure to follow the Issue Template, otherwise we cannot fix Bugs easily :(\nI have closed this Issue now, feel free to edit it with the Template, or to create a new one!"
+comment: "Hi!\nThank you for your issue, please make sure to follow the issue template!\nI will close this issue, please create a new issue following the template!"
 issueConfigs:
 # There can be several configs for different kind of issues.
 - content:
