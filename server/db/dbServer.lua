@@ -50,7 +50,7 @@ Citizen.CreateThread(function()
 				tint[i] = {item = "", count = 10}
 			end
 			tint[17].count = 500000
-			PreparedPlayerData[steamid] = {ids = 0, name = "thisname", steamid = steamid, license = license, discord = 0, x = -276.6, y=-322.8, z=30.00, hunger = 99.9, thirst = 99.9, weapons = "[]", inv = json.encode(tint), health=200, playerkillsthislife=50,zombiekillsthislife=50,playerkills=50,zombiekills=50, humanity=500, infected="false", money = 500000, locker_money=10000, wheelspins=99, playtime="0:1", currentQuest="[]",finishedQuests="[]", customskin=""}
+			PreparedPlayerData[steamid] = {ids = 0, name = GetPlayerName(client), steamid = steamid, license = license, discord = 0, x = -276.6, y=-322.8, z=30.00, hunger = 99.9, thirst = 99.9, weapons = "[]", inv = json.encode(tint), health=200, playerkillsthislife=50,zombiekillsthislife=50,playerkills=50,zombiekills=50, humanity=500, infected="false", money = 500000, locker_money=10000, wheelspins=99, playtime="0:1", currentQuest="[]",finishedQuests="[]", customskin=""}
 			cooked = true
 		else
 			exports['ghmattimysql']:execute('SELECT * FROM players where steamid=@steamid LIMIT 1', { steamid = steamid }, function(player)
@@ -67,7 +67,7 @@ Citizen.CreateThread(function()
 					end
 				else
 					exports['ghmattimysql']:execute('INSERT INTO players (steamid, x, y, z, hunger, thirst, license, name, discord, inv, currentQuest, finishedQuests) VALUES(@steamid, 0.0, 0.0, 77.0, 100.0, 100.0, @license, @name, "", "[]", "{}", "{}") ', { steamid = steamid, license = license, discord = discord or "", name = GetPlayerName(client) }, function() end)
-					--PreparedPlayerData[steamid] = nil
+					PreparedPlayerData[steamid] = nil
 					cooked = true
 				end
 			end)
@@ -159,22 +159,17 @@ Citizen.CreateThread(function()
 				return 
 			end
 
-			local success, err = pcall(function()
-				local steamid = GetPlayerSpecificIdentifier(client,"steam")
-				local license = GetPlayerSpecificIdentifier(client,"license")
-				local PlayerInfo = PreparedPlayerData[steamid]
-				
-				TriggerEvent("registerPlayerInv", client, PlayerInfo or {money = 0})
-				if PlayerInfo then
-					TriggerClientEvent("loadPlayerIn", client, PlayerInfo)
-				else
-					TriggerClientEvent("playerRegistered", client)
-				end
-				PreparedPlayerData[steamid] = nil
-			end)
-		if not success then
-			TriggerEvent("SentryIO_Error", err, debug.traceback())
-		end
+			local steamid = GetPlayerSpecificIdentifier(client,"steam")
+			local license = GetPlayerSpecificIdentifier(client,"license")
+			local PlayerInfo = PreparedPlayerData[steamid]
+			
+			TriggerEvent("registerPlayerInv", client, PlayerInfo or {money = 0})
+			if PlayerInfo then
+				TriggerClientEvent("loadPlayerIn", client, PlayerInfo)
+			else
+				TriggerClientEvent("playerRegistered", client)
+			end
+			PreparedPlayerData[steamid] = nil
 	end)
 
 	AddEventHandler("SavePlayerData", function(data)
