@@ -28,7 +28,7 @@ Citizen.CreateThread(function()
 				end
 				SetVehicleEngineHealth(veh, 1)
 				SetVehicleNumberPlateText(veh, "CHEATED")
-				Citizen.Trace("\nRemoving Cheated Vehicle.")
+				writeLog("\nRemoving Cheated Vehicle.",1)
 				SetEntityVelocity(veh, 0.0, 0.0, 0.0)
 				TaskLeaveVehicle(PlayerPedId(), veh, 0)
 				SetVehicleDoorsLocked(veh, 2)

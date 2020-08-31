@@ -12,7 +12,7 @@ AddEventHandler("registerNewVehicle", function(netid)
 	local t = {netid = netid, id = #spawnedCars+1}
 	table.insert(spawnedCars,t)
 	TriggerClientEvent("registerNewVehicle", -1, t)
-	Citizen.Trace("\nRegistering Vehicle "..t.id)
+	writeLog("\nRegistering Vehicle "..t.id, 1)
 end)
 
 AddEventHandler("removeOldVehicle", function(vehicle)
@@ -58,7 +58,7 @@ Citizen.CreateThread(function()
 					end
 				end
 				if not thisCarExists then
-					Citizen.Trace("\nDeleting Vehicle "..spawnedCar.id)
+					writeLog("\nDeleting Vehicle "..spawnedCar.id, 1)
 					table.remove(spawnedCars, i)
 					TriggerClientEvent("removedOldVehicle", -1, spawnedCar.id)
 				end

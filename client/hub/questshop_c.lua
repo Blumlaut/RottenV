@@ -32,7 +32,7 @@ function GenerateQuestDescriptions()
 		end
 		AddTextEntry(GetHashKey(quest.name.."_required"), reqt)
 	end
-	Citizen.Trace("\nQuest Data Loaded")
+	writeLog("\nQuest Data Loaded", 1)
 end
 Citizen.CreateThread(function()
 	

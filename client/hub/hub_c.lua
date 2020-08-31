@@ -78,13 +78,12 @@ Citizen.CreateThread(function()
 				MenuFound = true
 			end
 			if not NearStore and WarMenu.IsMenuOpened(Menu) then
-				Citizen.Trace(tostring(NearStore))
-				Citizen.Trace("\nClosing")
+				writeLog("\nClosing", 1)
 				WarMenu.CloseMenu()
 			end
 		end
 		if not MenuFound and InStore then
-			Citizen.Trace("\nmenu not found, but player is in store, exiting")
+			writeLog("\nmenu not found, but player is in store, exiting", 1)
 			InStore = false
 			CurrentStore = 0
 		end

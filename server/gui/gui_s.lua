@@ -23,12 +23,12 @@ Citizen.CreateThread(function()
 					squadExists = true
 					TriggerClientEvent("LeftSquad", theMember.id, Squads[i].name)
 					table.remove(Squads[i].members, theRow)
-					Citizen.Trace("\nremoved member from old squad\n")
+					writeLog("\nremoved member from old squad\n", 1)
 					for ti,TM in ipairs(Squads[i].members) do
 						TriggerClientEvent("SquadMemberLeft", TM.id, theMember.id, theMember.name)
-						Citizen.Trace("\ntelling members their member left\n")
+						writeLog("\ntelling members their member left\n", 1)
 					end
-					Citizen.Trace("\nPlayer Joined new Squad\n")
+					writeLog("\nPlayer Joined new Squad\n", 1)
 					break -- member was found, everything was done, break our loop
 				end
 			end
@@ -43,10 +43,10 @@ Citizen.CreateThread(function()
 				squadExists = true
 				table.insert(Squads[i].members, {id = jstheSource,name = PlayerName, admin = false})
 				TriggerClientEvent("JoinedSquad", jstheSource, Squads[i].members, Squads[i].name)
-				Citizen.Trace("\nPlayer Joined new Squad\n")
+				writeLog("\nPlayer Joined new Squad\n", 1)
 				for i,theMember in ipairs(Squads[i].members) do
 					TriggerClientEvent("SquadMemberJoined", theMember.id, PlayerName, jstheSource)
-					Citizen.Trace("\ntelling member they have a new member\n")
+					writeLog("\ntelling member they have a new member\n", 1)
 				end
 				break
 			end
@@ -56,7 +56,7 @@ Citizen.CreateThread(function()
 			local squadtable = {name = squadName, members = { } }
 			table.insert(Squads, squadtable)
 			TriggerClientEvent("SquadCreated", jstheSource, squadName)
-			Citizen.Trace("\nnew squad created\n")
+			writeLog("\nnew squad created\n", 1)
 			PlayerJoinSquad(jstheSource, PlayerName, true, squadName)
 		end
 	end)
@@ -70,10 +70,10 @@ Citizen.CreateThread(function()
 					squadExists = true
 					TriggerClientEvent("LeftSquad", theMember.id, Squads[i].name,p2,p3)
 					table.remove(Squads[i].members, theRow)
-					Citizen.Trace("\nremoved member from old squad\n")
+					writeLog("\nremoved member from old squad\n", 1)
 					for ti,TM in ipairs(Squads[i].members) do
 						TriggerClientEvent("SquadMemberLeft", TM.id, theMember.id, theMember.name,p2)
-						Citizen.Trace("\ntelling members their member left\n")
+						writeLog("\ntelling members their member left\n", 1)
 					end
 					break
 				end
@@ -101,7 +101,7 @@ Citizen.CreateThread(function()
 				
 			if #theSquad.members == 0 then
 				table.remove(Squads, i)
-				Citizen.Trace("\nremoved dead squad")
+				writeLog("\nremoved dead squad", 1)
 				break
 			end
 		end
@@ -112,7 +112,7 @@ Citizen.CreateThread(function()
 			if theSquad.name == SquadName then
 				table.insert(Squads[i].members, {id = PlayerId, name = PlayerName, admin = admin})
 				TriggerClientEvent("JoinedSquad", PlayerId, Squads[i].members, Squads[i].name,admin)
-				Citizen.Trace("\nPlayer Joined Squad\n")
+				writeLog("\nPlayer Joined Squad\n", 1)
 				break
 			end
 		end
@@ -139,7 +139,7 @@ Citizen.CreateThread(function()
 			for theRow,theMember in ipairs(theSquad.members) do
 				if theMember.name == PlayerName then
 					table.remove(Squads[i].members, theRow)
-					Citizen.Trace("\nPlayer Dropped, Removing them from their Squad..")
+					writeLog("\nPlayer Dropped, Removing them from their Squad..", 1)
 					for ti,TM in ipairs(Squads[i].members) do
 						TriggerClientEvent("SquadMemberLeft", TM.id, theMember.id, theMember.name)
 					end

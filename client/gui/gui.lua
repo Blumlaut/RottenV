@@ -36,7 +36,7 @@ end
 AddEventHandler("SquadCreated", function(squadName)
 	curSquadMembers = {}
 	TriggerEvent("showNotification", "~g~"..squadName.."~w~ has been created!")
-	Citizen.Trace("\ncreated new squad\n")
+	writeLog("\ncreated new squad\n", 1)
 	--table.insert( curSquadMembers,GetPlayerServerId(PlayerId()))
 	UpdateSquadMembers()
 end)
@@ -44,7 +44,7 @@ end)
 AddEventHandler("JoinedSquad", function(members,squadName,admin)
 	curSquadMembers = {}
 	TriggerEvent("showNotification", "You joined ~g~"..squadName.."~w~!")
-	Citizen.Trace("\njoined a new squad\n")
+	writeLog("\njoined a new squad\n", 1)
 	AddRichPresence("Just joined a Squad")
 	for i,theMember in ipairs(members) do
 		table.insert(curSquadMembers,theMember.id)
@@ -69,7 +69,7 @@ AddEventHandler("LeftSquad", function(squadName,reason,banned)
 	if banned then 
 		table.insert(bannedSquads,squadName)
 	end
-	Citizen.Trace("\nwe are leaving this squad\n")
+	writeLog("\nwe are leaving this squad\n", 1)
 	AddRichPresence("Is now a Lone Wolf")
 	UpdateSquadMembers()
 	squadAdmin = false
@@ -88,14 +88,14 @@ AddEventHandler("SquadMemberLeft", function(memberId,memberName,reason)
 			end
 		end
 	end
-	if not found then Citizen.Trace("\nsquad member left but we couldn't find him in our member list\n") else Citizen.Trace("\nplayer left us and was removed\n") end
+	if not found then writeLog("\nsquad member left but we couldn't find him in our member list\n", 1) else writeLog("\nplayer left us and was removed\n", 1) end
 	UpdateSquadMembers()
 end)
 
 AddEventHandler("SquadMemberJoined", function(PlayerName,playerid)
 	if PlayerId() ~= GetPlayerFromServerId(playerid) then
 		TriggerEvent("showNotification", "~g~"..PlayerName.."~w~ joined your Squad!")
-		Citizen.Trace("\nsomeone joined our squad\n")
+		writeLog("\nsomeone joined our squad\n", 1)
 		table.insert(curSquadMembers, playerid)
 		UpdateSquadMembers()
 	end
@@ -726,20 +726,16 @@ Citizen.CreateThread(function()
 						if not result or result == "" then result = consumableItems.count[i] end
 						if result and tonumber(result) and tonumber(result) > 0 and tonumber(result) <= consumableItems.count[i] then
 							result = math.round(tonumber(result))
-							print("add item result: "..result)
 							if not safeContents[i] then safeContents[i] = {id = i, count = 0} end 
 							safeContents[i].count = safeContents[i].count+result
 							consumableItems.count[i] = math.round(consumableItems.count[i]-result)
 							if consumableItems[i].isWeapon then
 								local newammo = GetAmmoInPedWeapon(PlayerPedId(), GetHashKey(Consumable.hash))-result
 								SetPedAmmo(PlayerPedId(), GetHashKey(Consumable.hash), math.round(newammo) )
-								print("new ammo: "..newammo)
 								if newammo == 0 then
 									RemoveWeaponFromPed(PlayerPedId(), GetHashKey(Consumable.hash))
-									print("taking weapon")
 								else
 									safeContents[i].ammoonly = true
-									print("ammo only")
 								end
 							end
 							if i == 17 then

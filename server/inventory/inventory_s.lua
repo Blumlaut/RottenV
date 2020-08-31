@@ -4,7 +4,7 @@ Citizen.CreateThread(function()
 		if player and player ~= 0 and GetPlayerName(player) then
 			TriggerClientEvent("c_killedZombie",player,weapon)
 			
-			Citizen.Trace(GetPlayerName(source).." Registered a ZOMBIE kill from "..GetPlayerName(player).."\n")
+			writeLog(GetPlayerName(source).." Registered a ZOMBIE kill from "..GetPlayerName(player).."\n", 1)
 		end
 	end)
 end)
@@ -16,7 +16,7 @@ inventories = {}
 
 AddEventHandler("registerPlayerInv", function(client,inv)
 	inventories[client] = inv
-	Citizen.Trace("\nAdded Player Inventory to List\n")
+	writeLog("\nAdded Player Inventory to List\n", 1)
 end)
 
 RegisterServerEvent("SetLegitimateMoney")

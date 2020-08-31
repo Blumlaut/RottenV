@@ -17,8 +17,6 @@ config.startMoney = 0
 config.maxVehicles = 60
 
 
-
-
 -- How many Food items can be spawned, per player.
 config.maxSpawnedFood = 6
 
@@ -52,3 +50,6 @@ config.SafeExpirationTime = 7
 
 -- How many days the server should unlock the safes for, until it gets deleted ( added ONTOP of SafeExpirationTime )
 config.SafeUnlockTime = 1
+
+
+config.LogLevel = 0 -- 0 = Errors Only, 1 = Verbose 

@@ -43,7 +43,7 @@ Citizen.CreateThread(function()
 		for i, car in pairs(cars) do
 			if GetEntityHealth(car.id) < 10.0 then
 				SetEntityAsNoLongerNeeded(car.localid)
-				Citizen.Trace("\ndeleting car")
+				writeLog("\ndeleting car", 1)
 				TriggerServerEvent("removeOldVehicle", car.id)
 				Wait(5000)
 			end
@@ -87,7 +87,7 @@ function GenerateRandomVehicle(maxVehicles)
 		end
 		
 		TriggerServerEvent("registerNewVehicle", NetworkGetNetworkIdFromEntity(car))
-		Citizen.Trace("\nGenerated New Car, NetId: "..NetworkGetNetworkIdFromEntity(car))
+		writeLog("\nGenerated New Car, NetId: "..NetworkGetNetworkIdFromEntity(car), 1)
 	end
 end
 RegisterNetEvent("GenerateRandomVehicle")

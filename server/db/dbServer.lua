@@ -2,7 +2,7 @@ TESTMODE = tobool(GetConvar("rottenv_testmode", "false"))
 
 
 if TESTMODE then
-	print("^1TEST MODE ENABLED, DATABASE FEATURES ARE DISABLED!^7\n")
+	writeLog("^1TEST MODE ENABLED, DATABASE FEATURES ARE DISABLED!^7\n", 0)
 end
 
 local charset = {}
@@ -152,7 +152,7 @@ RegisterServerEvent('spawnPlayer')
 RegisterServerEvent('SavePlayerData')
 Citizen.CreateThread(function()
 		AddEventHandler('spawnPlayer', function()
-			Citizen.Trace("\nClient Requested Spawn!\n")
+			writeLog("\nClient Requested Spawn!\n", 1)
 			local client = source
 			if not GetPlayerSpecificIdentifier(client,"steam") then 
 				DropPlayer(client, "Identifier Authentication Failed. Please make sure Steam is running and you are opted-out of Steam Beta.") --  we cant do anything without identifiers
@@ -180,13 +180,13 @@ Citizen.CreateThread(function()
 	AddEventHandler("SavePlayerData", function(data)
 		local client = source
 		if not GetPlayerSpecificIdentifier(client,"steam") then
-			print("player doesnt have steamid, cancelling save!\n")
+			writeLog("player doesnt have steamid, cancelling save!\n", 1)
 			TriggerEvent("SentryIO_Warning", "Player Identifier Missing (save)", "Player Requested Save but steamid did not exist.\nUsername:"..GetPlayerName(source))
 			return
 		end
 		local steamid = GetPlayerSpecificIdentifier(client,"steam")
 		local license = GetPlayerSpecificIdentifier(client,"license")
-		Citizen.Trace("\nClient Requested Save!\n")
+		writeLog("\nClient Requested Save!\n", 1)
 		if not TESTMODE then
 			exports['ghmattimysql']:execute('UPDATE players SET x=@x, y=@y, z=@z, hunger=@hunger, thirst=@thirst, inv=@inv, health=@health, playerkillsthislife=@playerkillsthislife, zombiekillsthislife=@zombiekillsthislife, playerkills=@playerkills, zombiekills=@zombiekills, humanity=@humanity, money=@money, locker_money=@locker_money, wheelspins=@wheelspins,infected=@infected, playtime=@playtime, currentQuest=@currentQuest, finishedQuests=@finishedQuests, name=@name, license=@license, steamid=@steamid WHERE steamid=@steamid', {name = GetPlayerName(client), x = data.posX, y = data.posY, z = data.posZ, hunger = data.hunger, thirst = data.thirst, inv = data.inv, health = data.health, playerkillsthislife = data.playerkillsthislife, zombiekillsthislife = data.zombiekillsthislife, playerkills = data.playerkills, zombiekills = data.zombiekills, humanity = data.humanity, money = data.money, locker_money = data.locker_money, wheelspins=data.wheelspins,infected = tostring( data.infected ), playtime = data.playtime.hour..':'..data.playtime.minute, currentQuest = data.currentQuest, finishedQuests = data.finishedQuests, license = license, steamid = steamid  }, function() end)
 		end

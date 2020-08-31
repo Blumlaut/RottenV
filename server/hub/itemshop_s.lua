@@ -54,7 +54,7 @@ Citizen.CreateThread(function()
 	
 	RegisterServerEvent("requestHubStock")
 	AddEventHandler("requestHubStock", function(shop,stockType)
-		Citizen.Trace("\nPlayer Requested Hub Stock\n")
+		writeLog("\nPlayer Requested Hub Stock\n", 1)
 		if stockType == "weapons" then
 			TriggerClientEvent("recieveHubStock", source, stockType,Stores[shop].weaponStock)
 		elseif stockType == "items" then
@@ -64,7 +64,7 @@ Citizen.CreateThread(function()
 	
 	RegisterServerEvent("adjustHubStock")
 	AddEventHandler("adjustHubStock", function(shop,stockType,item,count) -- we dont need seperate functions for this, just make sure we pass a negative or positive value to "count"
-		Citizen.Trace("\nPlayer Adjusted Hub Stock\n")
+		writeLog("\nPlayer Adjusted Hub Stock\n", 1)
 		if count > 1 or count < -1 then -- make sure the values actually make sense, otherwise we are most likely dealing with a cheeser
 			TriggerEvent("RottenV:FuckCheaters", source, "Hub Alert!","Tried Adding "..count.." Items to the Hub")
 			return

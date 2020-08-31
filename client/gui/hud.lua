@@ -340,7 +340,6 @@ Citizen.CreateThread(function()
 				if AimedAtPed and IsEntityAPed(AimedAtPed) and DecorGetInt(AimedAtPed, "IsBoss") == 1 then
 					local percent = (100/(GetEntityMaxHealth(AimedAtPed)-100)) * (GetEntityHealth(AimedAtPed)-100)
 					if percent < 0 then percent = 0 end
-					--Citizen.Trace(percent)
 					local percent = percent/100
 					local barLength = ((0.1) * percent)
 					local barHeight = 0.02*0.65

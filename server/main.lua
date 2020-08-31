@@ -46,7 +46,7 @@ AddEventHandler("playerDropped", function(reason)
 	players[source] = nil
 	TriggerClientEvent("Z:playerUpdate", -1, players)
 	local pname = GetPlayerName(source)
-	Citizen.Trace("\nPlayer dropped: " .. pname)
+	writeLog("\nPlayer dropped: " .. pname, 0)
 	for i, pickupInfo in pairs(spawnedItems) do
 		Citizen.Wait(100)
 		if pname == pickupInfo.ownerName then

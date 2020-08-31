@@ -82,7 +82,7 @@ Citizen.CreateThread(function()
 			if GetVehicleEngineHealth(veh) <= 100 then
 				SetEntityAsMissionEntity(veh,true,true)
 				SetEntityAsNoLongerNeeded(veh)
-				Citizen.Trace("\nDeleted Destroyed Vehicle")
+				writeLog("\nDeleted Destroyed Vehicle", 1)
 			end
 			Wait(1)
 			finished, veh = FindNextVehicle(handle) -- first param returns true while entities are found
@@ -102,7 +102,7 @@ Citizen.CreateThread(function()
 				SetEntityAsMissionEntity(ped,true,true)
 				SetEntityAsNoLongerNeeded(ped)
 				DeleteEntity(ped)
-				Citizen.Trace("\nDeleted Dead Ped")
+				writeLog("\nDeleted Dead Ped", 1)
 			end
 			finished, ped = FindNextPed(handle) -- first param returns true while entities are found
 			Wait(1)

@@ -21,7 +21,7 @@ local safemenus = {'safe','safeinventory','safeadditem','safetakeitem'}
 AddEventHandler("loadSafes", function(tt)
 	safes = tt
 	updateAllSafes()
-	Citizen.Trace("\nSafes Recieved!\n")
+	writeLog("\nSafes Recieved!\n", 1)
 end)
 
 AddEventHandler("loadSafe", function(t)

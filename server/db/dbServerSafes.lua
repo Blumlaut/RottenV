@@ -16,7 +16,7 @@ RegisterServerEvent("Z:newplayerID")
 Citizen.CreateThread(function()
 
 	function updateAllSafes()
-		Citizen.Trace("\nUpdating all Safes...\n")
+		writeLog("\nUpdating all Safes...", 0)
 		safes = {}
 		Wait(500)
 		if not TESTMODE then
@@ -52,7 +52,7 @@ Citizen.CreateThread(function()
 							table.insert(safes,theSafe)
 						end
 					end
-					Citizen.Trace("\nUpdated Safes. "..#safes.."\n")
+					writeLog("\nUpdated Safes. "..#safes, 0)
 				end)
 				if not success then
 					TriggerEvent("SentryIO_Error", err, debug.traceback())
@@ -80,7 +80,7 @@ Citizen.CreateThread(function()
 			repeat
 				Wait(1) -- wait for response
 			until id ~= -1
-			Citizen.Trace("\nSafe "..id.." Created!\n")
+			writeLog("\nSafe "..id.." Created!\n", 1)
 			TriggerClientEvent("addSafe", -1, id,x,y,z,r)
 			table.insert(safes, {id = id,x = x,y = y,z = z,r = r,passcode = passcode, inv = inv, in_use = false, usageTime = 0, permanent = true} )
 		end)
@@ -107,7 +107,7 @@ Citizen.CreateThread(function()
 				id = math.random(1000,1000000) -- assign an id that hasnt been used yet and probably never will, we won't be saving this anyway.
 				passcode = "0000"
 			end
-			Citizen.Trace("\nSafe "..id.." Created!\n")
+			writeLog("\nSafe "..id.." Created!\n", 1)
 			TriggerClientEvent("addCustomSafe", -1, id,x,y,z,r,model,blip)
 			table.insert(safes, {id=id,x = x,y = y,z = z,r = r,passcode = passcode, inv = inv, in_use = false, usageTime = 0, permanent = permanent,blip=blip,model=model} )
 		end)
@@ -125,7 +125,7 @@ Citizen.CreateThread(function()
 				if id == theSafe.id and passcode == theSafe.passcode and passcode ~= "0000" and theSafe.permanent then
 					exports['ghmattimysql']:execute('DELETE FROM safes WHERE id=@id LIMIT 1', {id=id}, function() end)
 					table.remove(safes,i)
-					Citizen.Trace("\nSafe "..id.." Deleted!\n")
+					writeLog("\nSafe "..id.." Deleted!\n", 1)
 					TriggerClientEvent("removeSafe", -1, id)
 					break
 				end
@@ -157,13 +157,13 @@ Citizen.CreateThread(function()
 					if passcode ~= "0000" then
 						exports['ghmattimysql']:execute('UPDATE safes SET creationTime=@creationTime WHERE id=@id LIMIT 1', {creationTime = os.time(), id = id}, function() end)
 					end
-					Citizen.Trace("\nPlayer Opened Safe!\n")
+					writeLog("\nPlayer Opened Safe!\n", 1)
 					break
 				end
 			end
 			if not foundSafe then
 				TriggerClientEvent("GetSafeContents", c, false,false, false, false, false, false, "")
-				Citizen.Trace("\nSafe not found but client insists, whats wrong?\n")
+				writeLog("\nSafe not found but client insists, whats wrong?\n", 1)
 			end
 		end)
 		if not success then
@@ -179,7 +179,7 @@ Citizen.CreateThread(function()
 			if id == theSafe.id then
 				safes[i].in_use = false
 				safes[i].usageTime = 0
-				Citizen.Trace("\nPlayer Exited Safe!\n")
+				writeLog("\nPlayer Exited Safe!\n", 1)
 				break
 			end
 		end
@@ -196,12 +196,12 @@ Citizen.CreateThread(function()
 					end
 					foundSafe = true
 					safes[i].inv = inv
-					Citizen.Trace("\nPlayer Updated Safe!\n")
+					writeLog("\nPlayer Updated Safe!\n", 1)
 					break
 				end
 			end
 			if not foundSafe then
-				Citizen.Trace("\nSafe not found but client insists, whats wrong?\n")
+				writeLog("\nSafe not found but client insists, whats wrong?\n", 1)
 			end
 		end)
 		if not success then
@@ -222,7 +222,7 @@ Citizen.CreateThread(function()
 			Citizen.Wait(15)
 		end
 		--TriggerClientEvent("loadSafes", src, tt )
-		Citizen.Trace("\nSending Client Safes!\n")
+		writeLog("\nSending Client Safes!\n", 1)
 	end)
 
 end)

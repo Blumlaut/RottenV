@@ -68,13 +68,13 @@ Citizen.CreateThread(function()
 					NetworkClearVoiceChannel()
 					NetworkSetTalkerProximity(75.01)
 					NetworkSetVoiceActive(true)
-					Citizen.Trace("\nChannel: No, Proximity = 75.01")
+					writeLog("\nChannel: No, Proximity = 75.01", 1)
 				else
 					NetworkSetVoiceActive(false)
 					NetworkSetVoiceChannel(cbChannel)
 					NetworkSetTalkerProximity(GetHighestVoiceProximity())
 					NetworkSetVoiceActive(true)
-					Citizen.Trace("\nChannel: "..cbChannel..", Proximity = "..GetHighestVoiceProximity().."")
+					writeLog("\nChannel: "..cbChannel..", Proximity = "..GetHighestVoiceProximity().."", 1)
 				end
 			end
 			if IsControlJustPressed(0, 304) and DoesPlayerHaveCBRadio() then

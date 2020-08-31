@@ -12,7 +12,7 @@ Citizen.CreateThread(function(choices, weights)
 	function DeletePickup(pickup)
 		if (pickup and DoesEntityExist(pickup)) then
 			SetEntityAsMissionEntity(pickup, true, true)
-			Citizen.Trace("\ndeleting pickup "..pickup.."\n")
+			writeLog("\ndeleting pickup "..pickup.."\n", 1)
 			--RemovePickup(pickup)
 			DeleteObject(pickup)
 			
@@ -43,22 +43,22 @@ Citizen.CreateThread(function()
 	RegisterNetEvent("removePickup")
 	AddEventHandler("removePickup", function(pickupInfo,rsn)
 		-- Remove the pickup...
-		Citizen.Trace("\ngot a deletion request ("..rsn or "none"..")")
+		writeLog("\ngot a deletion request ("..rsn or "none"..")", 1)
 		local DeletedThisPickup = false
 		for i, pickup in ipairs(spawnedPickups) do
 			if pickup.x == pickupInfo.x and pickup.y == pickupInfo.y then
-				Citizen.Trace("\n.. item deleted!")
+				writeLog("\n.. item deleted!", 1)
 				table.remove(spawnedPickups, i)
 				DeletedThisPickup = true
 				if pickup.pickup then
-					Citizen.Trace("\nfound pickup, sending deletion request\n")
+					writeLog("\nfound pickup, sending deletion request\n", 1)
 					TriggerEvent("DeletePickup", pickup.pickup)
 				end
 			end
 		end
 		if not DeletedThisPickup then
 			table.insert(pickupsPendingDeletion, pickupInfo)
-			Citizen.Trace("\n^1PICKUP DIDNT GET DELETED!!! "..pickupInfo.x+pickupInfo.y.. " N "..#pickupsPendingDeletion)
+			writeLog("\n^1PICKUP DIDNT GET DELETED!!! "..pickupInfo.x+pickupInfo.y.. " N "..#pickupsPendingDeletion, 1)
 		end
 			
 	end)
@@ -68,7 +68,7 @@ Citizen.CreateThread(function()
 	RegisterNetEvent("collectPickup")
 	AddEventHandler("collectPickup", function(pickupInfo) -- if the pickup has been collected and is valid
 		if not pickupInfo.x then return end
-		Citizen.Trace("\nCollecting pickup: " .. table.tostring(pickupInfo) .. "\n")
+		writeLog("\nCollecting pickup: " .. table.tostring(pickupInfo) .. "\n", 1)
 		for i,theItem in pairs(spawnedPickups) do
 			if pickupInfo.x == theItem.x and pickupInfo.y == theItem.y then
 				
@@ -159,7 +159,7 @@ Citizen.CreateThread(function()
 		end
 
 		if not isPlayerInSafezone and not IsPlayerDead(PlayerId()) and (localWeapons < maxWeapons or localFood < maxFood) then
-			--Citizen.Trace("\nSpawning pickups: Weapons: " .. localWeapons .. ", Food: " .. localFood)
+			--writeLog("\nSpawning pickups: Weapons: " .. localWeapons .. ", Food: " .. localFood, 1)
 			local posX,posY,posZ = table.unpack(GetEntityCoords(PlayerPedId(), true))
 			local canSpawn = false
 			local spawnX = posX
@@ -173,8 +173,8 @@ Citizen.CreateThread(function()
 					spawnX = posX + math.random(-250, 250)
 					spawnY = posY + math.random(-250, 250)
 					_,spawnZ = GetGroundZFor_3dCoord(spawnX+.0, spawnY+.0, 99999.0, 1)
-					--Citizen.Trace("\nPlayer cords: [" .. posX .. "," .. posY .. "," .. posZ .. "]")
-					--Citizen.Trace("\nPickup cords: [" .. spawnX .. "," .. spawnY .. "," .. spawnZ .. "]")
+					--writeLog("\nPlayer cords: [" .. posX .. "," .. posY .. "," .. posZ .. "]", 1)
+					--writeLog("\nPickup cords: [" .. spawnX .. "," .. spawnY .. "," .. spawnZ .. "]", 1)
 				until spawnZ ~= 0
 
 				spawnZ = spawnZ + 1
@@ -184,7 +184,7 @@ Citizen.CreateThread(function()
 						local playerX, playerY, playerZ = table.unpack(GetEntityCoords(GetPlayerPed(player), true))
 						if DistanceBetweenCoords2D(spawnX, spawnY, playerX, playerY) < 60 then
 							canSpawn = false
-							--Citizen.Trace("\nPickup is within 60 meters of: " .. GetPlayerName(player))
+							--writeLog("\nPickup is within 60 meters of: " .. GetPlayerName(player), 1)
 							break
 						else
 							canSpawn = true
@@ -192,7 +192,7 @@ Citizen.CreateThread(function()
 					end
 				else
 					canSpawn = false
-					--Citizen.Trace("\nPickup height is out of limit!")
+					--writeLog("\nPickup height is out of limit!", 1)
 				end
 			until canSpawn
 
@@ -219,7 +219,7 @@ Citizen.CreateThread(function() --medThread
 				if DistanceBetweenCoords2D(posX,posY,pickupInfo.x,pickupInfo.y) < 2.5 and not IsPlayerDead(PlayerId()) and not IsPedInAnyVehicle(PlayerPedId(), false) and not IsEntityDead(PlayerPedId()) and not spawnedPickups[i].RequestedDeletion then
 					TriggerServerEvent("collectPickup", pickupInfo)
 					spawnedPickups[i].RequestedDeletion = true
-					Citizen.Trace("\nRemoving Pickup at 265\n")
+					writeLog("\nRemoving Pickup at 265\n", 1)
 				end
 			end
 		end
@@ -257,14 +257,14 @@ function createLootThread(crashed)
 				if pickupInfo.spawned == false and not pickupInfo.RequestedDeletion then
 					if DistanceBetweenCoords2D(posX, posY, pickupInfo.x, pickupInfo.y) < 60.0 then
 						if not IsModelInCdimage(pickupInfo.model) then
-							Citizen.Trace("\nitem "..pickupInfo.model.." can't spawn, removing...\n")
+							writeLog("\nitem "..pickupInfo.model.." can't spawn, removing...\n", 1)
 							--TriggerServerEvent("removePickup", pickupInfo, "invalid cd image\n")
 							break
 						end
 						
 						RequestModel(GetHashKey(pickupInfo.model))
 						while not HasModelLoaded(GetHashKey(pickupInfo.model)) do
-							Citizen.Trace(pickupInfo.model.." not loaded\n")
+							writeLog(pickupInfo.model.." not loaded\n", 1)
 							Wait(300)
 						end
 						
@@ -276,7 +276,7 @@ function createLootThread(crashed)
 								_,spawnZ = GetGroundZFor_3dCoord(posX+.0, posY+.0, 99999.0, 1)
 							until spawnZ ~= 0
 							pickupInfo.z = spawnZ+1.0
-							Citizen.Trace("\nzcoord for item generated: "..pickupInfo.z)
+							writeLog("\nzcoord for item generated: "..pickupInfo.z, 1)
 						end
 							
 							
@@ -290,7 +290,7 @@ function createLootThread(crashed)
 							pickupInfo.pickup = pickup
 							pickupInfo.spawned = true
 							spawnedPickups[i] = pickupInfo
-							Citizen.Trace(pickupInfo.pickup .. " Items " .. table.tostring(pickupInfo.pickupItemData) .. " Spawned!\n")
+							writeLog(pickupInfo.pickup .. " Items " .. table.tostring(pickupInfo.pickupItemData) .. " Spawned!\n", 1)
 						end
 					end
 				elseif pickupInfo.spawned == true then
@@ -298,7 +298,7 @@ function createLootThread(crashed)
 						TriggerEvent("DeletePickup", pickupInfo.pickup)
 						pickupInfo.spawned = false
 						spawnedPickups[i] = pickupInfo
-						Citizen.Trace("\nRemoved pickup(too far away)\n")
+						writeLog("\nRemoved pickup(too far away)\n", 1)
 					end
 				end
 			end
@@ -322,7 +322,7 @@ Citizen.CreateThread(function() -- slow thread
 						_,spawnZ = GetGroundZFor_3dCoord(posX+.0, posY+.0, 99999.0, 1)
 					until spawnZ ~= 0
 					pickupInfo.z = spawnZ+1.0
-					Citizen.Trace("\nzcoord for item generated: "..pickupInfo.z)
+					writeLog("\nzcoord for item generated: "..pickupInfo.z, 1)
 				end
 			end
 		end

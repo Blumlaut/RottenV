@@ -27,17 +27,17 @@ AddEventHandler("RegisterNewBanditCamp", function(data)
 	CampCoords[data.id].used = true
 	CampCoords[data.id].lastCreated = os.time()
 	TriggerClientEvent("RegisterNewBanditCamp", -1, t)
-	Citizen.Trace("\nRegistering Camp")
+	writeLog("\nRegistering Camp", 1)
 end)
 
 AddEventHandler("RemoveOldCamp", function(campid)
 	--print("got camp removal request")
 	for i,camp in pairs(BanditCamps) do
-		print(camp.id)
+		writeLog(camp.id, 1)
 		if camp.id == campid then
 			table.remove(BanditCamps,i)
 			
-			print("camp removed")
+			writeLog("camp removed", 1)
 		end
 	end
 	TriggerClientEvent("RemoveOldCamp", -1, campid)
@@ -60,7 +60,7 @@ Citizen.CreateThread(function()
 					Wait(1)
 					local dist = DistanceBetweenCoords2D(coord.x, coord.y, px, py) 
 					if (dist < 200 and dist > 50) and not coord.used and (os.time()-coord.lastCreated > 1000) then
-						print("generating")
+						writeLog("generating", 1)
 						TriggerClientEvent("GenerateBanditCamp", player, {id = i, coords = coord, pedcount = math.random(2,8)}  ) -- ask a random player to generate a camp
 					end
 				end

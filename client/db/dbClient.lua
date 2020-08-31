@@ -93,7 +93,7 @@ AddEventHandler("requestDaily", function(a)
 	Quests[99].finishrequirements = a[3].finishrequirements
 	Quests[99].finishloot = a[3].finishloot
 	GenerateQuestDescriptions()
-	Citizen.Trace("\nrequested daily")
+	writeLog("\nrequested daily",1)
 end) -- reqeest daily info
 
 
@@ -143,7 +143,7 @@ Citizen.CreateThread( function()
 			consumableItems.count[17] = tonumber(data.money) 
 			locker_money = tonumber(data.locker_money) 
 
-			Citizen.Trace("\nRecieving Stats...")
+			writeLog("\nRecieving Stats...",1)
 			local currentPlayerModel = config.skins.neutral
 			customSkin = data.customskin
 			
@@ -186,11 +186,11 @@ Citizen.CreateThread( function()
 				RequestCollisionAtCoord(x, y, currentzcoord)
 				foundzcoord,z = GetGroundZFor_3dCoord(x, y, z+9999.0, 0)
 				if foundzcoord then 
-					Citizen.Trace("\nfound z coord! "..z) 
+					writeLog("\nfound z coord! "..z, 1) 
 				end
 				if currentzcoord < -100 then -- if we go too low, go back up
 					foundzcoord = true
-					Citizen.Trace("\ndidn't find zcoord :(")
+					writeLog("\ndidn't find zcoord :(", 1)
 					z = 500.0 -- force a high up spawn
 				end
 				currentzcoord = currentzcoord-5.0
@@ -200,7 +200,7 @@ Citizen.CreateThread( function()
 			local playerPed = PlayerPedId()
 			SetEntityCoords(playerPed,x+.0,y+.0,z+1.5,1,0,0,1)
 			ShutdownLoadingScreenNui()
-			Citizen.Trace("\nshutting down loadscreen")
+			writeLog("\nshutting down loadscreen", 1)
 			local wt = json.decode(inventory)
 			if wt[1] and not wt[1].id then
 				for i,w in ipairs(wt) do
@@ -256,7 +256,7 @@ Citizen.CreateThread( function()
 			N_0xd8295af639fd9cb8(PlayerPedId())
 			Wait(5000)
 			LoadedPlayerData = true
-			Citizen.Trace("\nDone, we should spawn soon!")
+			writeLog("\nDone, we should spawn soon!", 1)
 		end)
 		if not success then
 			TriggerServerEvent("SentryIO_Error", err, debug.traceback())
@@ -269,8 +269,8 @@ Citizen.CreateThread(function()
 		if firstSpawn then
 			TriggerServerEvent("spawnPlayer", GetPlayerServerId(PlayerId()))
 
-			Citizen.Trace("\nRequesting Spawn!")
-			Citizen.Trace("\nSent!")
+			writeLog("\nRequesting Spawn!", 1)
+			writeLog("\nSent!", 1)
 			firstSpawn = false
 		end
 		Wait(500)
@@ -343,7 +343,7 @@ Citizen.CreateThread(function()
 	function initiateSave(disallowTimer)
 		local success, err = pcall(function()
 			if not LoadedPlayerData then 
-				Citizen.Trace("\nPlayer Data not Ready, Cancelling Save...")
+				writeLog("\nPlayer Data not Ready, Cancelling Save...", 1)
 				return 
 			end
 			local playerPed = PlayerPedId()
@@ -409,7 +409,7 @@ Citizen.CreateThread(function()
 			end
 			local data = { posX = posX, posY = posY, posZ = posZ, hunger = hunger, thirst = thirst, inv = PedItems, health = GetEntityHealth(PlayerPedId()), playerkillsthislife = playerkillsthislife, zombiekillsthislife = zombiekillsthislife, playerkills = playerkills, zombiekills = zombiekills, humanity = humanity, money = money, infected = infected, playtime = playtime, currentQuest = quest, finishedQuests = finquests, locker_money = locker_money, wheelspins = wheelspins }
 			TriggerServerEvent("SavePlayerData",data)
-			Citizen.Trace("\nSaving PlayerData!")
+			writeLog("\nSaving PlayerData!", 1)
 		end)
 		if not success then
 			TriggerServerEvent("SentryIO_Error", err, debug.traceback())
@@ -443,7 +443,7 @@ end)
 RegisterNetEvent('playerRegistered')
 AddEventHandler("playerRegistered", function()
 	local success, err = pcall(function()
-		Citizen.Trace("\nplayer registered")
+		writeLog("\nplayer registered", 1)
 		TriggerServerEvent("requestDaily")
 		local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(), true))
 		local currentzcoord = z
@@ -451,16 +451,16 @@ AddEventHandler("playerRegistered", function()
 			Wait(1)
 			RequestCollisionAtCoord(x, y, currentzcoord)
 			foundzcoord,z = GetGroundZFor_3dCoord(x, y, z+9999.0, 0)
-			if foundzcoord then Citizen.Trace("\nfound z coord! "..z) end
+			if foundzcoord then writeLog("\nfound z coord! "..z, 1) end
 			if currentzcoord < -100 then -- if we go too low, go back up
 				foundzcoord = true
-				Citizen.Trace("\ndidn't find zcoord :(")
+				writeLog("\ndidn't find zcoord :(", 1)
 				z = 500.0 -- force a high up spawn
 			end
 			currentzcoord = currentzcoord-5.0
 		until foundzcoord
 		ShutdownLoadingScreenNui() -- shut down loading screen
-		Citizen.Trace("\nshutting down loadscreen")
+		writeLog("\nshutting down loadscreen", 1)
 		SetEntityCoords(PlayerPedId(), x, y, z+1.0, 0, 0, 0, false) -- teleport player to ground
 		playerkillsthislife = 0
 		zombiekillsthislife = 0
@@ -476,7 +476,7 @@ AddEventHandler("playerRegistered", function()
 		Wait(300)
 		N_0xd8295af639fd9cb8(PlayerPedId()) -- move camera back to player
 		Wait(8000)
-		Citizen.Trace("\nplayer registered ")
+		writeLog("\nplayer registered ", 1)
 		LoadedPlayerData = true
 	end)
 	if not success then

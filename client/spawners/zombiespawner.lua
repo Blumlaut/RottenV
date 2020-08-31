@@ -598,7 +598,7 @@ Citizen.CreateThread(function()
 					if dropChance >= 95 and not DecorGetInt(ped, "IsBoss") == 1 then
 						TriggerServerEvent("ForceCreateFoodPickupAtCoord", pedX,pedY,pedZ)
 					elseif DecorGetInt(ped, "IsBoss") == 1 and not IsEntityOnFire(ped) then
-						Citizen.Trace("\nGENERATING BOSS DROP")
+						writeLog("\nGENERATING BOSS DROP", 1)
 						local minItems = math.random(3,10)
 						local minGuns = math.random(1,3)
 						local items = {}
@@ -625,7 +625,7 @@ Citizen.CreateThread(function()
 							ownerName = GetPlayerName(PlayerId()),
 							spawned = false
 						}
-						Citizen.Trace("\nGENERATED SHOULD BE CREATED")
+						writeLog("\nBOSS DROP SHOULD BE CREATED", 1)
 						TriggerServerEvent("registerPickup", itemInfo,true)
 						SetEntityHealth(ped, 0)
 					end
@@ -714,7 +714,7 @@ Citizen.CreateThread(function()
 
 				if NetworkHasControlOfEntity(ped) and (not ownedByMe and not CanNotControl) then
 					table.insert(zombies, ped)
-					Citizen.Trace("\nFound homeless zombie "..ped..", lets give him a home :heart:!\n")
+					writeLog("\nFound homeless zombie "..ped..", lets give him a home :heart:!\n", 1)
 				end
 			end
 			finished, ped = FindNextPed(handle) -- first param returns true while entities are found

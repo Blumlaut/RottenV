@@ -78,17 +78,17 @@ Citizen.CreateThread(function()
 			initiateSave(true)
 			if killer == playerPed or not killerId then
 				TriggerServerEvent('playerDied',0,0)
-				Citizen.Trace("\nPlayer Died for no reason!")
+				writeLog("\nPlayer Died for no reason!", 1)
 			elseif killername and killername ~= "unknown" and weapon ~= 0 then
 				TriggerServerEvent('playerDied',killername,1,killerweapon)
-				Citizen.Trace("\nPlayer Died from "..killername.."!")
+				writeLog("\nPlayer Died from "..killername.."!", 1)
 				TriggerServerEvent("registerKill",GetPlayerServerId(killerId), humanity,weapon)
 				if IsPlayerHunted then
 					TriggerServerEvent("RemovePlayerHunted")
 				end
 			else
 				TriggerServerEvent('playerDied',0,2)
-				Citizen.Trace("\nPlayer Died for unknown reason!")
+				writeLog("\nPlayer Died for unknown reason!", 1)
 			end
 			alreadyDead = true
 		end

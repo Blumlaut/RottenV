@@ -36,7 +36,7 @@ Citizen.CreateThread(function()
 		for i=0, 10 do
 			if i == winningChance then
 				win.id = win.icon
-				Citizen.Trace(win.label, win.value)
+				writeLog(win.label, win.value, 1)
 				if win.value == "randomWeapon" then
 					local rndwp = weaponChances[ math.random(#weaponChances) ]
 					win.value = consumableItems[rndwp].name

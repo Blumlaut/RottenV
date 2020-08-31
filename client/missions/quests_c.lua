@@ -71,23 +71,19 @@ function FinishQuest(id)
 		local requirements = Quests[id].finishrequirements
 		if requirements.banditkills and currentQuest.progress.banditkills < requirements.banditkills then
 				failedQuest = true
-				Citizen.Trace("\nfailed at bandit kills")
 		elseif requirements.herokills and currentQuest.progress.herokills < requirements.herokills then
 				failedQuest = true
-				Citizen.Trace("\nfailed at hero kills")
 		elseif requirements.zombiekills and currentQuest.progress.zombiekills < requirements.zombiekills then
 				failedQuest = true
-				Citizen.Trace("\nfailed at zombie kills")
 		elseif requirements.stopCamps and currentQuest.progress.stopCamps < requirements.stopCamps then
 				failedQuest = true
-				Citizen.Trace("\nfailed at stop camps")
 		end
 		
 		if requirements.items then 
 			for i,item in ipairs(requirements.items) do
 				if consumableItems.count[item.id] < item.count then
 					failedQuest = true
-					Citizen.Trace(consumableItems[item.id].name.." "..consumableItems.count[item.id])
+					writeLog(consumableItems[item.id].name.." "..consumableItems.count[item.id], 1)
 				end
 			end
 		end
@@ -123,9 +119,7 @@ function FinishQuest(id)
 			end
 			
 			local pickupString = "You Got:"
-			Citizen.Trace(#loot.loot)
 			for i,item in pairs(loot.loot) do
-				Citizen.Trace(i)
 				item.count = math.round(item.count)
 				consumableItems.count[item.id] = math.round(consumableItems.count[item.id]+item.count)
 				if item.id == 17 then

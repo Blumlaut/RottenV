@@ -40,7 +40,7 @@ Citizen.CreateThread(function(choices, weights)
 				spawned = false
 			}
 			
-			Citizen.Trace("\nSpawned new Food "..spawnPosY+spawnPosX+spawnPosZ)
+			writeLog("\nSpawned new Food "..spawnPosY+spawnPosX+spawnPosZ, 1)
 			table.insert(spawnedItems, itemInfo)
 
 			TriggerClientEvent("createPickup",-1, itemInfo,bool)
@@ -84,7 +84,7 @@ Citizen.CreateThread(function(choices, weights)
 				weaponInfo.dontAddWeapon = true 
 			end
 
-			Citizen.Trace("\nSpawned new Weapon "..spawnPosY+spawnPosX+spawnPosZ)
+			writeLog("\nSpawned new Weapon "..spawnPosY+spawnPosX+spawnPosZ, 1)
 			table.insert(spawnedItems, weaponInfo)
 			TriggerClientEvent("createPickup",-1, weaponInfo,bool)
 		end)
@@ -144,30 +144,12 @@ Citizen.CreateThread(function()
 					local localFood,localWeapons = GetItemsOfTypeInRange(localx,localy,300)
 						
 					if not isPlayerInSafezone and not IsPlayerDead and (localWeapons < maxWeapons or localFood < maxFood) then
-						--Citizen.Trace("\nSpawning pickups: Weapons: " .. localWeapons .. ", Food: " .. localFood)
 						local posX,posY,posZ = table.unpack(GetEntityCoords(curPlayerPed, true))
 						local canSpawn = false
 						local spawnX = posX+(math.random(-200,200))
 						local spawnY = posY+(math.random(-200,200))
 						local spawnZ = 0
 						
-						
-						--[[
-						repeat
-							for _, player in pairs(GetPlayers()) do
-								local playerX, playerY, playerZ = table.unpack(GetEntityCoords(GetPlayerPed(player), true))
-								if DistanceBetweenCoords2D(spawnX, spawnY, playerX, playerY) < 60 then
-									canSpawn = false
-									--Citizen.Trace("\nPickup is within 60 meters of: " .. GetPlayerName(player))
-									break
-								else
-									canSpawn = true
-								end
-							end
-						until canSpawn
-						]]
-			
-			
 						if localFood < maxFood then
 							ForceCreateFoodPickupAtCoord(spawnX, spawnY, spawnZ)
 							localFood = localFood + 1
@@ -216,7 +198,7 @@ function GetItemsOfTypeInRange(rangex,rangey,range)
 					end
 				end
 			else
-				Citizen.Trace("\npickup is a dead drop, ignoring.. "..tostring(pickup.deaddrop)..","..tostring(pickup.expires))
+				writeLog("\npickup is a dead drop, ignoring.. "..tostring(pickup.deaddrop)..","..tostring(pickup.expires), 1)
 			end
 		end
 	end)
@@ -240,7 +222,7 @@ Citizen.CreateThread(function()
 			local PlayerItems = 0
 			local FoundCheat = false
 			local src = source
-			Citizen.Trace("\nClient "..GetPlayerName(source).." Requested a Pickup Creation.\n")
+			writeLog("\nClient "..GetPlayerName(source).." Requested a Pickup Creation.\n", 1)
 			if not bool then
 				for i,thePickup in pairs(spawnedItems) do
 					--Citizen.Wait(1)
@@ -256,7 +238,7 @@ Citizen.CreateThread(function()
 				
 			if pickupInfo.deaddrop then
 				pickupInfo.expires = os.time()+800
-				Citizen.Trace("\nitem is a dead drop, setting time.")
+				writeLog("\nitem is a dead drop, setting time.", 1)
 			end
 
 			if type(pickupInfo.pickupItemData) == "table" then
@@ -291,7 +273,7 @@ Citizen.CreateThread(function()
 			
 			if (CloseItems < 8 and PlayerItems < 8) and (not FoundCheat) then
 				table.insert(spawnedItems, pickupInfo)
-				Citizen.Trace("\nItem Request for client "..GetPlayerName(src).." Granted!\n")
+				writeLog("\nItem Request for client "..GetPlayerName(src).." Granted!\n", 1)
 				TriggerClientEvent("createPickup", -1, pickupInfo)
 			end
 		end)
@@ -308,18 +290,18 @@ Citizen.CreateThread(function()
 	AddEventHandler("removePickup", function(pickupInfo, reason)
 		local success, err = pcall(function()
 			local foundPickup = false
-			Citizen.Trace("\ngot a request to delete Pickup "..pickupInfo.x+pickupInfo.y.."\n")
+			writeLog("\ngot a request to delete Pickup "..pickupInfo.x+pickupInfo.y.."\n", 1)
 			for i,pickup in pairs(spawnedItems) do
 				if pickup.x == pickupInfo.x and pickup.y == pickupInfo.y then
 					table.remove(spawnedItems, i)
-					Citizen.Trace("\nRemoved Pickup "..pickupInfo.x+pickupInfo.y.." for reason "..reason)
-					Citizen.Trace("\nRemoving Pickup "..pickupInfo.x+pickupInfo.y.." as Requested.\n")
+					writeLog("\nRemoved Pickup "..pickupInfo.x+pickupInfo.y.." for reason "..reason, 1)
+					writeLog("\nRemoving Pickup "..pickupInfo.x+pickupInfo.y.." as Requested.\n", 1)
 					TriggerClientEvent("removePickup", -1, {x = pickupInfo.x, y = pickupInfo.y }, reason)
 					foundPickup = true
 				end
 			end
 			if not foundPickup then -- didnt find pickup to delete, we will have to assume that it was deleted earlier, send all clients this message
-				Citizen.Trace("\nDeleting Pickup "..pickupInfo.x+pickupInfo.y.." failed, attempting to delete anyway..\n")
+				writeLog("\nDeleting Pickup "..pickupInfo.x+pickupInfo.y.." failed, attempting to delete anyway..\n", 1)
 				TriggerClientEvent("removePickup", -1, {x = pickupInfo.x, y = pickupInfo.y }, reason)
 			end
 		end)
@@ -339,11 +321,11 @@ Citizen.CreateThread(function()
 				return 
 			end
 			local foundPickup = false
-			Citizen.Trace("\nClient "..GetPlayerName(s).." Requested to collect a pickup.\n")
+			writeLog("\nClient "..GetPlayerName(s).." Requested to collect a pickup.\n", 1)
 			for i,pickup in pairs(spawnedItems) do
 				if pickup.x == pickupInfo.x and pickup.y == pickupInfo.y then
 					table.remove(spawnedItems, i)
-					Citizen.Trace("\npickup for client "..GetPlayerName(s).." was collected\n")
+					writeLog("\npickup for client "..GetPlayerName(s).." was collected\n", 1)
 					TriggerClientEvent("collectPickup", s, pickupInfo)
 					TriggerClientEvent("removePickup", -1, {x = pickupInfo.x, y = pickupInfo.y}, "pickup was collected\n")
 					foundPickup = true
@@ -388,8 +370,8 @@ end)
 Citizen.CreateThread(function()
 	RegisterServerEvent("Z:newplayerID")
 	AddEventHandler("Z:newplayerID", function(playerid)
-		Citizen.Trace("\nNew Client Joined, Syncing Pickups..\n")
+		writeLog("\nNew Client Joined, Syncing Pickups..\n", 1)
 		TriggerClientEvent("loadPickups", source, spawnedItems)
-		Citizen.Trace("\nDone Syncing Pickups!\n")
+		writeLog("\nDone Syncing Pickups!\n", 1)
 	end)
 end)

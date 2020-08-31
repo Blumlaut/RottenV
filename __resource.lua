@@ -8,6 +8,7 @@ shared_scripts {
 
 server_scripts {
 	"shared/gameplay/weatherconfig.lua",
+	"shared/useful/loghandler.lua",
 	"server/main.lua",
 	"server/pingkick.lua",
 	"shared/useful/functions.lua",
@@ -37,6 +38,7 @@ server_scripts {
 }
 
 client_scripts {
+	"shared/useful/loghandler.lua",
 	"shared/inventory/items.lua",
 	"shared/missions/quests.lua",
 	"shared/useful/functions.lua",

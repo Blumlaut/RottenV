@@ -48,7 +48,7 @@ Citizen.CreateThread(function()
 					local pedX,pedY,pedZ=table.unpack(GetEntityCoords(ped,true) )
 					TriggerServerEvent("ForceCreateWeaponPickupAtLocation", pedX,pedY,pedZ)
 					table.remove(camp.peds,i)
-					print("ped dead")
+					writeLog("ped dead", 1)
 					local cod = GetPedSourceOfDeath(ped)
 					local weap = GetPedCauseOfDeath(ped)
 					if cod ~= 0 and NetworkGetPlayerIndexFromPed(cod) then
@@ -120,7 +120,7 @@ function GenerateBanditCamp(campinfo)
 	end
 	
 	TriggerServerEvent("RegisterNewBanditCamp", campinfo)
-	Citizen.Trace("\nGenerated New Bandit Camp")
+	writeLog("\nGenerated New Bandit Camp", 1)
 end
 RegisterNetEvent("GenerateBanditCamp")
 AddEventHandler("GenerateBanditCamp", GenerateBanditCamp)
@@ -130,7 +130,7 @@ AddEventHandler("RegisterNewBanditCamp", function(data)
 	-- {netid = netid, id = #spawnedCars+1}
 	for i, ped in ipairs(data.peds) do
 		data.peds[i] = NetworkGetEntityFromNetworkId(ped)
-		print("netid:"..ped)
+		writeLog("netid:"..ped, 1)
 	end
 	data.blip = AddBlipForRadius(data.coords.x, data.coords.y, data.coords.z, 30.0)
 	SetBlipAsShortRange(data.blip, true)
@@ -173,7 +173,7 @@ AddEventHandler("RemoveOldCamp", function(campid)
 			RemoveBlip(camp.blip)
 			RemoveBlip(camp.blip2)
 			table.remove(banditcamps,i)
-			print("camp removed")
+			writeLog("camp removed", 1)
 		end
 	end
 end)

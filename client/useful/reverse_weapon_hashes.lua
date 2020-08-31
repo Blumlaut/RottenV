@@ -265,6 +265,6 @@ function reverseWeaponHash(hash,method)
 	if hash ~= 0 then
 		TriggerServerEvent("SentryIO_Warning", "Weapon Pickup Hash Warning", "Weapon Hash "..hash.." returned an unknown weapon.")
 	end
-   Citizen.Trace("\nError reversing weapon hash \"" .. hash .. "\". Maybe it's not been added yet?")
+	writeLog("\nError reversing weapon hash \"" .. hash .. "\". Maybe it's not been added yet?", 1)
    return "Unknown"
 end

@@ -68,32 +68,6 @@ Citizen.CreateThread(function()
 	ServerReady = true
 end)
 
-Citizen.CreateThread(function()
-	RegisterServerEvent("RottenV:VerifyFileHash")
-	AddEventHandler("RottenV:VerifyFileHash", function(hashes)
-		for uid,User in ipairs(hashValidatedUsers) do
-			if User.identifier == GetPlayerIdentifier(source,1) then
-				for i,a in ipairs(verifiedhashes) do
-					if a.hash == hashes[i].hash then
-						hashValidatedUsers[uid].hashes[i].v = true
-						if i == #verifiedhashes then
-							hashValidatedUsers[uid].verified = true
-							Citizen.Trace(GetPlayerName(source).." Verified!\n")
-							RemovePlayerFromHashCheck(GetPlayerName(source), GetPlayerIdentifier(source,1))
-						end
-					else
-						RemovePlayerFromHashCheck(GetPlayerName(source))
-						local license, steam = GetPlayerNeededIdentifiers(source)
-						local name = GetPlayerName(source)
-						DropPlayer(source, "Verification Failed")
-						SendWebhookMessage(webhook,"**Verification Failed** \n```\nUser:"..name.."\n"..license.."\n"..steam.."\nexpected hash '"..a.hash.."' for file '"..a.file.."', expected hash '"..hashes[i].hash.."'\n player kicked```")
-					end
-				end
-			end
-		end
-	end)
-end)
-
 
 
 Citizen.CreateThread(function()
@@ -340,7 +314,7 @@ Citizen.CreateThread(function()
 			end
 		end
 		
-		--Citizen.Trace(GetPlayerName(source).." tried to run "..typ.." event "..event.."( "..argstring.." )\n")
+		--writeLog(GetPlayerName(source).." tried to run "..typ.." event "..event.."( "..argstring.." )\n", 1)
 		TriggerEvent("RottenV:FuckCheaters", p,"Executed Scrambled Event", "Tried to Execute "..event.." ("..argstring..") on the "..typ.." without Permission.",true)
 	end
 	
