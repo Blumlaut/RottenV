@@ -31,30 +31,6 @@ end
 
 
 
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(10000)
-		for i,user in pairs(hashValidatedUsers) do 
-			if user and user.verified == false then 
-				if user.waitTime > 32 then
-					for i,player in ipairs(GetPlayers()) do 
-						if GetPlayerIdentifier(source,1) == user.identifier then
-							RemovePlayerFromHashCheck(GetPlayerName(player),GetPlayerIdentifier(source,1))
-							local license, steam = GetPlayerNeededIdentifiers(player)
-							local name = GetPlayerName(player)
-							DropPlayer(player, "File Verification Failed")
-							SendWebhookMessage(webhook,"**File Verification Failed** \n```\nUser:"..name.."\n"..license.."\n"..steam.."\nFailed to Verify Gamemode Files after 5 minutes, kicked..```")
-						end
-					end
-				else
-					hashValidatedUsers[i].waitTime = hashValidatedUsers[i].waitTime+1
-				end
-			end
-		end
-	end
-
-end)
-
 
 Citizen.CreateThread(function()
 	AddEventHandler('playerConnecting', function(playerName)

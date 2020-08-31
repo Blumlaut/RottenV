@@ -67,7 +67,7 @@ Citizen.CreateThread(function()
 					end
 				else
 					exports['ghmattimysql']:execute('INSERT INTO players (steamid, x, y, z, hunger, thirst, license, name, discord, inv, currentQuest, finishedQuests) VALUES(@steamid, 0.0, 0.0, 77.0, 100.0, 100.0, @license, @name, "", "[]", "{}", "{}") ', { steamid = steamid, license = license, discord = discord or "", name = GetPlayerName(client) }, function() end)
-					PreparedPlayerData[steamid] = nil
+					--PreparedPlayerData[steamid] = nil
 					cooked = true
 				end
 			end)
