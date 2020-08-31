@@ -7,3 +7,5 @@ Please refer to the [Wiki](https://github.com/Bluethefurry/RottenV/wiki) for a g
 Experience an issue or have a suggestion? Feel free to create an [Issue](https://github.com/Bluethefurry/RottenV/issues)
 
 Made your own changes to the code? Feel free to add it! We're always looking for [Pull Requests](https://github.com/Bluethefurry/RottenV/pulls)
+
+You can also join the preview server @ cfx.re/join/gwa4ew if you want to take a look at the gamemode, or at recent changes, this server reboots twice a day and pulls the latest GitHub changes when it does so.
