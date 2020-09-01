@@ -537,8 +537,9 @@ Citizen.CreateThread(function()
 				SetPedRagdollBlockingFlags(ped, 1)
 				SetPedRagdollBlockingFlags(ped, 4)
 			else
-				SetPedMaxHealth(ped, calculateZombieHealth())
-				SetEntityHealth(ped, calculateZombieHealth())
+				local th = calculateZombieHealth()
+				SetPedMaxHealth(ped, th)
+				SetEntityHealth(ped, th)
 				SetPedSeeingRange(ped, 20.0)
 				SetEntityMaxSpeed(ped, 5.0)
 			end
