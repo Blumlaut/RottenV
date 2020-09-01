@@ -2,13 +2,13 @@
 RottenV:R is a Community-Driven Zombie Gamemode, originally developed by Scammer, it has been majorly rewritten and expanded by Blü, it has been in development for over 3 years with breaks inbetween, this is the public release of the whole Gamemode, nothing was redacted, everything is here.
 
 ## Features
-- Fully Integrated Currency System
-- Hunger, Thirst and Morality System with different Skins
-- over 100 Usable Items
-- Adaptable Quest System and Random World Events
-- Dynamic Enemies which react to Player behaviour
-- Persistant Player Inventories
-- Realistic Voice Chat with a Radio System for Long-Distance Chatting
+- Fully integrated currency system
+- Hunger, thirst and morality system with different skins
+- over 100 usable items
+- Adaptable quest system and random world events
+- Dynamic enemies which react to player behaviour
+- Persistant player inventories
+- Realistic voice chat with a radio system for long-listance chatting
 
 
 Please refer to the [Wiki](https://github.com/Bluethefurry/RottenV/wiki) for a guide on how to install everything.
