@@ -1,3 +1,5 @@
+![](https://flausch.biz/l3ep7/ouvuf.png)
+
 # RottenV
 RottenV:R is a Community-Driven Zombie Gamemode, originally developed by Scammer, it has been majorly rewritten and expanded by Blü, it has been in development for over 3 years with breaks inbetween, this is the public release of the whole Gamemode, nothing was redacted, everything is here.
 
