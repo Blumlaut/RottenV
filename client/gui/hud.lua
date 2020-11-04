@@ -54,7 +54,7 @@ Citizen.CreateThread(function()
 		if not value or value > 100.0 then return {255,255,255} end
 		local colouring = value*2.55
 		local red,green,blue = 255-colouring,colouring,0
-		local red, green, blue = tonumber(math.round(red)),tonumber(math.round(green)),tonumber(math.round(blue))
+		local red, green, blue = math.round(red),math.round(green),math.round(blue)
 		return {red, green, blue}
 	end
 	
@@ -252,7 +252,6 @@ Citizen.CreateThread(function()
 				
 				if hunger then
 					local convertedhunger = math.round(hunger)
-					local convertedhunger = tonumber(convertedhunger)
 					local red, green, blue = table.unpack(ConvertToRGB(convertedhunger))
 					local food_icon = "hunger100"
 					if convertedhunger >= 100 and convertedhunger <= 81 then
@@ -274,7 +273,6 @@ Citizen.CreateThread(function()
 				if thirst then
 					local convertedthirst = math.round(thirst)
 					local red, green, blue = table.unpack(ConvertToRGB(convertedthirst))
-					local convertedthirst = tonumber(convertedthirst)
 					local thirst_icon = "thirst100"
 					if convertedthirst >= 100 and convertedthirst <= 81 then
 						thirst_icon = "thirst100"
