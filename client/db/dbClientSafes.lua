@@ -111,9 +111,9 @@ Citizen.CreateThread(function() -- this thread will loop our local table to see 
 	while true do
 		Citizen.Wait(1)
 		isNearSafe = false
-		local pxx,pyy,pzz = table.unpack(GetEntityCoords(PlayerPedId(), true))
+		local playerCoords = GetEntityCoords(PlayerPedId(), true)
 		for i,theSafe in pairs(safes) do
-			if GetDistanceBetweenCoords(pxx,pyy,pzz, theSafe.x,theSafe.y,theSafe.z,true) < 2.5 then
+			if #(playerCoords - vector3(theSafe.x,theSafe.y,theSafe.z)) < 2.5 then
 				isNearSafe = true
 				DrawMissonText("Press E to Open. ("..theSafe.id..")",100,true)
 				if IsControlJustPressed(1, 51) then

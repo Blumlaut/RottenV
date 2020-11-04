@@ -56,7 +56,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		NearStore = false
 		for i,Stall in pairs(Stores) do
-			if Vdist2(GetEntityCoords(PlayerPedId(), true), Stall.location[1], Stall.location[2], Stall.location[3]) <= 10 then
+			if #(GetEntityCoords(PlayerPedId(), true) - vector3(Stall.location[1], Stall.location[2], Stall.location[3])) <= 10 then
 				NearStore = true
 				if not InStore then
 					HelpText("Press ~INPUT_CONTEXT~ to enter the ~g~"..Stall.name)

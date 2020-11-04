@@ -120,7 +120,7 @@ Citizen.CreateThread(function()
 				for _,p in pairs(allPlayers) do
 					if DoesEntityExist(GetPlayerPed(p)) then
 						local pedx,pedy,pedz = table.unpack(GetEntityCoords(GetPlayerPed(p), true))
-						if DistanceBetweenCoords2D(localx, localy, pedx,pedy) < 300 then
+						if #(vector3(localx, localy, 0) - vector3(pedx,pedy,0)) < 300 then
 							pir=pir+1
 						end
 					end
@@ -156,7 +156,7 @@ Citizen.CreateThread(function()
 			for i,player in ipairs(allPlayers) do
 				if player and GetPlayerName(player) and GetPlayerPed(player) then
 					local px,py,pz = table.unpack(GetEntityCoords(GetPlayerPed(player), true))
-					if DistanceBetweenCoords2D(pickup.x, pickup.y, px,py) < 350.0 then
+					if #(vector3(pickup.x, pickup.y, 0) - vector3(px,py,0)) < 350.0 then
 						CanBeDeleted = false
 					end
 				end
@@ -174,7 +174,7 @@ function GetItemsOfTypeInRange(rangex,rangey,range)
 	local weaponitems = 0
 	for i,pickup in pairs(spawnedItems) do
 		if not pickup.deaddrop and not pickup.expires then
-			if DistanceBetweenCoords2D(pickup.x, pickup.y, rangex,rangey) < range then
+			if #(vector3(pickup.x, pickup.y,0) - vector3(rangex,rangey, 0)) < range then
 				if not consumableItems[pickup.pickupItemData[1].id].isWeapon then
 					fooditems=fooditems+1
 				else
@@ -206,7 +206,7 @@ Citizen.CreateThread(function()
 			for i,thePickup in pairs(spawnedItems) do
 				--Citizen.Wait(1)
 				-- not sure why this would co-relate to the other threads, but its worth a try i guess
-				if DistanceBetweenCoords2D(pickupInfo.x,pickupInfo.y,thePickup.x,thePickup.y) < 80.0 then
+				if #(vector3(pickupInfo.x,pickupInfo.y, 0) - vector3(thePickup.x,thePickup.y,0)) < 80.0 then
 					CloseItems = CloseItems+1
 				end
 			end

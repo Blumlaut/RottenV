@@ -79,7 +79,7 @@ Citizen.CreateThread(function()
 		local tdist = 999999999
 		local smallestdrop = 1
 		for i,drop in pairs(airdropStarts) do
-			local d = Vdist(drop.x, drop.y, 0, x, y, 0)
+			local d = #(vector3(drop.x, drop.y, 0) - vector3(x, y, 0))
 			if tdist > d then
 				tdist = d
 				smallestdrop = i
@@ -128,7 +128,7 @@ Citizen.CreateThread(function()
 			
 			-- we dont actually need Entity Ownership anymore since another client will take over, and it didnt work to begin with
 			
-			if GetDistanceBetweenCoords(x,y, z, GetEntityCoords(cargoplane), false) < 50.0 then
+			if #(vector3(x,y, z) - GetEntityCoords(cargoplane)) < 50.0 then
 				dropdone = true
 				TriggerServerEvent("TellAirdropToFuckOffAndUnregister", {planeNet = planeNet, pilotNet = pilotNet})
 				SetEntityAsNoLongerNeeded(pilot)

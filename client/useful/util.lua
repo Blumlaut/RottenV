@@ -59,7 +59,7 @@ function GetPlayersInRadius(radius)
 	local localx,localy,localz = table.unpack(GetEntityCoords(PlayerPedId(), true))	
 	for _,player in pairs(plist) do
 		local pedx,pedy,pedz = table.unpack(GetEntityCoords(GetPlayerPed(player), true))
-		if GetDistanceBetweenCoords(localx, localy, localz, pedx,pedy,pedz, false) < (radius or 300) then
+		if #(vector3(localx, localy, localz) - vector3(pedx,pedy,pedz)) < (radius or 300) then
 			pamount=pamount+1
 		end
 	end

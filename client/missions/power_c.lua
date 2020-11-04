@@ -39,8 +39,8 @@ Citizen.CreateThread(function()
           if blackout and not v.disabled then
               DrawMarker(1, v.x, v.y, v.z, 0, 0, 0, 0, 0, 0, 1.0, 1.0, 1.0, 25, 200, 25, 150, false, false, 0, false, 0, 0, false)
           end
-          x,y,z = table.unpack(GetEntityCoords(PlayerPedId(), true))
-          if GetDistanceBetweenCoords(x, y, z, v.x, v.y, v.z, true) < 2.0 and not repairing and blackout and stationIAmRepairing == "" then
+          playerCoords = GetEntityCoords(PlayerPedId(), true)
+          if #(playerCoords - vector3(v.x, v.y, v.z)) < 2.0 and not repairing and blackout and stationIAmRepairing == "" then
               if cooldown == 0 and not v.disabled and not IsPedInAnyVehicle(PlayerPedId(), true) then
                 HelpText("Press ~INPUT_CONTEXT~ to begin repairing the transformer")
                 if IsControlJustPressed(1, 51) then -- BEGIN

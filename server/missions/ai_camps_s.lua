@@ -58,7 +58,7 @@ Citizen.CreateThread(function()
 				local px,py,pz = table.unpack(GetEntityCoords(GetPlayerPed(player), true))
 				for i, coord in pairs(CampCoords) do 
 					Wait(1)
-					local dist = DistanceBetweenCoords2D(coord.x, coord.y, px, py) 
+					local dist = #(vector3(coord.x, coord.y, 0) -  vector3(px, py,0)) 
 					if (dist < 200 and dist > 50) and not coord.used and (os.time()-coord.lastCreated > 1000) then
 						writeLog("generating", 1)
 						TriggerClientEvent("GenerateBanditCamp", player, {id = i, coords = coord, pedcount = math.random(2,8)}  ) -- ask a random player to generate a camp

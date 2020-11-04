@@ -592,7 +592,7 @@ Citizen.CreateThread(function()
 			local pedX, pedY, pedZ = table.unpack(GetEntityCoords(ped, true))
 			if IsPedDeadOrDying(ped, true) then
 				local pedX, pedY, pedZ = table.unpack(GetEntityCoords(ped, false))
-				local distancebetweenpedandplayer = DistanceBetweenCoords(pedX,pedY,pedZ,x,y,z)
+				local distancebetweenpedandplayer = #(vector3(pedX,pedY,pedZ) - vector3(x,y,z))
 				-- Set ped as no longer needed for despawning
 				if distancebetweenpedandplayer < 200.0 then
 					local dropChance = math.random(0,100)
@@ -674,7 +674,7 @@ Citizen.CreateThread(function()
 				DisablePedPainAudio(ped, true)
 				SetPedDiesInWater(ped, false)
 				SetPedDiesWhenInjured(ped, false)
-				if GetDistanceBetweenCoords(pedX, pedY, 0.0, playerX, playerY, 0.0, false) > 135.0 then
+				if #(vector3(pedX, pedY, 0.0) - vector3(playerX, playerY, 0.0)) > 135.0 then
 					-- Set ped as no longer needed for despawning
 					local model = GetEntityModel(ped)
 					DeleteEntity(ped)

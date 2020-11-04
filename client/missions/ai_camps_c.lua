@@ -41,7 +41,7 @@ Citizen.CreateThread(function()
 		local px,py,pz = table.unpack(GetEntityCoords(PlayerPedId(),false))
 		for i, camp in ipairs(banditcamps) do
 			for i,ped in ipairs(camp.peds) do
-				if NetworkHasControlOfEntity(ped) and GetDistanceBetweenCoords(camp.coords.x, camp.coords.y, camp.coords.z, px,py,pz,false) > 400 then
+				if NetworkHasControlOfEntity(ped) and #(vector3(camp.coords.x, camp.coords.y, camp.coords.z) - vector3(px,py,pz)) > 400 then
 					DeleteEntity(ped)
 					table.remove(camp.peds,i)
 				elseif NetworkHasControlOfEntity(ped) and IsPedDeadOrDying(ped, true) then
@@ -54,7 +54,7 @@ Citizen.CreateThread(function()
 					if cod ~= 0 and NetworkGetPlayerIndexFromPed(cod) then
 						TriggerServerEvent("s_killedBanditPed",GetPlayerServerId(NetworkGetPlayerIndexFromPed(cod)),weap)
 					end
-				elseif GetDistanceBetweenCoords(camp.coords.x, camp.coords.y, camp.coords.z, px,py,pz,false) < 300 and not DoesEntityExist(ped) then
+				elseif #(vector3(camp.coords.x, camp.coords.y, camp.coords.z) - vector3(px,py,pz)) < 300 and not DoesEntityExist(ped) then
 					table.remove(camp.peds,i)
 				end
 				Wait(1)
@@ -162,8 +162,8 @@ RegisterNetEvent("RemoveOldCamp")
 AddEventHandler("RemoveOldCamp", function(campid)
 	for i,camp in pairs(banditcamps) do
 		if camp.id == campid then
-			local px,py,pz = table.unpack(GetEntityCoords(PlayerPedId(), false))
-			if GetDistanceBetweenCoords(px,py,pz, camp.coords.x, camp.coords.y, camp.coords.z, false) < 100 then
+			local playerCoords = GetEntityCoords(PlayerPedId(), false)
+			if #(playerCoords - vector3(camp.coords.x, camp.coords.y, camp.coords.z)) < 100 then
 				if currentQuest.active then
 					if Quests[currentQuest.id].finishrequirements.stopCamps and not IsPlayerDead(PlayerId()) then
 						currentQuest.progress.stopCamps = currentQuest.progress.stopCamps+1

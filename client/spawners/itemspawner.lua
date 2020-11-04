@@ -213,10 +213,10 @@ Citizen.CreateThread(function() --medThread
 	while loaded == true do
 		Citizen.Wait(200)
 
-		local posX,posY,posZ = table.unpack(GetEntityCoords(PlayerPedId(), true))
+		local playerCoords = GetEntityCoords(PlayerPedId(), true)
 		for i, pickupInfo in pairs(spawnedPickups) do
 			if pickupInfo.spawned then
-				if DistanceBetweenCoords2D(posX,posY,pickupInfo.x,pickupInfo.y) < 2.5 and not IsPlayerDead(PlayerId()) and not IsPedInAnyVehicle(PlayerPedId(), false) and not IsEntityDead(PlayerPedId()) and not spawnedPickups[i].RequestedDeletion then
+				if #(vector3(playerCoords.x, playerCoords.y, 0) - vector3(pickupInfo.x,pickupInfo.y, 0)) < 2.5 and not IsPlayerDead(PlayerId()) and not IsPedInAnyVehicle(PlayerPedId(), false) and not IsEntityDead(PlayerPedId()) and not spawnedPickups[i].RequestedDeletion then
 					TriggerServerEvent("collectPickup", pickupInfo)
 					spawnedPickups[i].RequestedDeletion = true
 					writeLog("\nRemoving Pickup at 265\n", 1)
@@ -232,8 +232,8 @@ Citizen.CreateThread(function()
 
 		-- Light
 		for i, pickupInfo in pairs(spawnedPickups) do
-			local posX,posY,posZ = table.unpack(GetEntityCoords(PlayerPedId(), true))
-			if DistanceBetweenCoords(posX, posY, posZ, pickupInfo.x, pickupInfo.y, pickupInfo.z) < 300.0 then
+			local playerCoords = GetEntityCoords(PlayerPedId(), true)
+			if #(playerCoords - vector3(pickupInfo.x, pickupInfo.y, pickupInfo.z)) < 300.0 then
 				-- DrawLine(posX,posY,posZ, pickupInfo.x, pickupInfo.y, pickupInfo.z, 255, 255, 255, 255)
 				DrawLightWithRangeAndShadow(pickupInfo.x, pickupInfo.y, pickupInfo.z + 0.1, 255, 255, 255, 3.0, 50.0, 5.0)
 			end
@@ -255,7 +255,7 @@ function createLootThread(crashed)
 			local posX,posY,posZ = table.unpack(GetEntityCoords(PlayerPedId(), true))
 			for i, pickupInfo in pairs(spawnedPickups) do
 				if pickupInfo.spawned == false and not pickupInfo.RequestedDeletion then
-					if DistanceBetweenCoords2D(posX, posY, pickupInfo.x, pickupInfo.y) < 60.0 then
+					if #(vector3(posX, posY, 0) - vector3(pickupInfo.x, pickupInfo.y, 0)) < 60.0 then
 						if not IsModelInCdimage(pickupInfo.model) then
 							writeLog("\nitem "..pickupInfo.model.." can't spawn, removing...\n", 1)
 							--TriggerServerEvent("removePickup", pickupInfo, "invalid cd image\n")
@@ -294,7 +294,7 @@ function createLootThread(crashed)
 						end
 					end
 				elseif pickupInfo.spawned == true then
-					if DistanceBetweenCoords2D(posX, posY, pickupInfo.x, pickupInfo.y) > 80.0 and not pickupInfo.RequestedDeletion then
+					if #(vector3(posX, posY, 0) - vector3(pickupInfo.x, pickupInfo.y, 0)) > 80.0 and not pickupInfo.RequestedDeletion then
 						TriggerEvent("DeletePickup", pickupInfo.pickup)
 						pickupInfo.spawned = false
 						spawnedPickups[i] = pickupInfo
@@ -313,7 +313,7 @@ Citizen.CreateThread(function() -- slow thread
 		local posX,posY,posZ = table.unpack(GetEntityCoords(PlayerPedId(), true))
 		for i,pickupInfo in ipairs(spawnedPickups) do
 			Wait(10)
-			if DistanceBetweenCoords2D(posX, posY, pickupInfo.x, pickupInfo.y) < 300.0 then
+			if #(vector3(posX, posY, 0) - vector3(pickupInfo.x, pickupInfo.y, 0)) < 300.0 then
 				if not pickupInfo.z or pickupInfo.z == 0 then
 					RequestCollisionAtCoord(pickupInfo.x, pickupInfo.y, posZ)
 					repeat
