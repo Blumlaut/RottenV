@@ -53,7 +53,10 @@ Citizen.CreateThread(function()
 		Wait(1)
 		if LoadedPlayerData then
 			radiotex = "basicradio"
-			if not DoesPlayerHaveCBRadio() then
+			local hasCB = DoesPlayerHaveCBRadio()
+			local highestProx = GetHighestVoiceProximity()
+			local bestCB = GetPlayerBestCBRadio()
+			if not hasCB then
 				VoiceType = false --player has no cb
 				NetworkSetVoiceActive(false)
 				NetworkClearVoiceChannel()
@@ -61,7 +64,7 @@ Citizen.CreateThread(function()
 				NetworkSetVoiceActive(true)
 			end
 			
-			if IsControlJustPressed(0, 183) and DoesPlayerHaveCBRadio() then
+			if IsControlJustPressed(0, 183) and hasCB then
 				VoiceType = not VoiceType
 				if not VoiceType then
 					NetworkSetVoiceActive(false)
@@ -72,12 +75,12 @@ Citizen.CreateThread(function()
 				else
 					NetworkSetVoiceActive(false)
 					NetworkSetVoiceChannel(cbChannel)
-					NetworkSetTalkerProximity(GetHighestVoiceProximity())
+					NetworkSetTalkerProximity(highestProx)
 					NetworkSetVoiceActive(true)
-					writeLog("\nChannel: "..cbChannel..", Proximity = "..GetHighestVoiceProximity().."", 1)
+					writeLog("\nChannel: "..cbChannel..", Proximity = "..highestProx.."", 1)
 				end
 			end
-			if IsControlJustPressed(0, 304) and DoesPlayerHaveCBRadio() then
+			if IsControlJustPressed(0, 304) and hasCB then
 				WarMenu.OpenMenu('useCBAmateur')
 				if VoiceType then
 					cii_, sii_ = 1, 1
@@ -93,7 +96,7 @@ Citizen.CreateThread(function()
 							showRadio = true
 							NetworkSetVoiceActive(false)
 							NetworkSetVoiceChannel(cbChannel)
-							NetworkSetTalkerProximity(GetHighestVoiceProximity())
+							NetworkSetTalkerProximity(highestProx)
 							NetworkSetVoiceActive(true)
 						else
 							VoiceType = false
@@ -112,14 +115,14 @@ Citizen.CreateThread(function()
 					showRadio = true
 					local channels = {}
 					local modulations = {}
-					if GetPlayerBestCBRadio() == 92 then
+					if bestCB == 92 then
 						table.insert(modulations, "AM")
 						if cbType == "AM" then 
 							for i = 4, 19 do
 								table.insert(channels,i)
 							end
 						end
-					elseif GetPlayerBestCBRadio() == 94 then
+					elseif bestCB == 94 then
 						table.insert(modulations, "AM")
 						table.insert(modulations, "FM")
 						if cbType == "AM" then 
@@ -150,7 +153,7 @@ Citizen.CreateThread(function()
 							cbChannel = channels[currentChannelIndex]
 							cbChannelIndex = currentChannelIndex
 							NetworkSetVoiceChannel(cbChannel)
-							NetworkSetTalkerProximity(GetHighestVoiceProximity())
+							NetworkSetTalkerProximity(highestProx)
 						end
 						currentChannelItemIndex = currentChannelIndex
 						selectedChannelItemIndex = selectedChannelIndex
@@ -168,12 +171,12 @@ Citizen.CreateThread(function()
 							if ci == 1 and cbChannel > 19 then
 								cbChannel = 9
 								NetworkSetVoiceChannel(cbChannel)
-								NetworkSetTalkerProximity(GetHighestVoiceProximity())
+								NetworkSetTalkerProximity(highestProx)
 							elseif ci == 2 and cbChannel < 20 then
 								cbChannel = 20
 								cbChannelIndex = 16
 								NetworkSetVoiceChannel(cbChannel)
-								NetworkSetTalkerProximity(GetHighestVoiceProximity())
+								NetworkSetTalkerProximity(highestProx)
 							end
 						end
 						cii = ci
@@ -210,12 +213,12 @@ Citizen.CreateThread(function()
 			]]
 			
 			
-			if NetworkIsPlayerTalking(PlayerId()) and DoesPlayerHaveCBRadio() then
+			if NetworkIsPlayerTalking(PlayerId()) and hasCB then
 				showRadio = true
 			end
 			
-			if showRadio and GetPlayerBestCBRadio() then
-				if GetPlayerBestCBRadio() == 92 then
+			if showRadio and bestCB then
+				if bestCB == 92 then
 					DrawSprite("rottenv", "basicradio", 0.70-safeZoneOffset, 0.85+safeZoneOffset,0.28,0.33, 0.0, 255,255,255, 255)
 				
 					SetTextFont(2)
@@ -229,7 +232,7 @@ Citizen.CreateThread(function()
 					AddTextComponentString(cbType..""..cbChannel)
 					DrawText(0.755, 0.872)
 				--elseif GetPlayerBestCBRadio() == 93 then
-				elseif GetPlayerBestCBRadio() == 93 then
+				elseif bestCB == 93 then
 					DrawSprite("rottenv", "medradio", 0.70-safeZoneOffset, 0.85+safeZoneOffset,0.28,0.33, 0.0, 255,255,255, 255)
 				
 					SetTextFont(2)
@@ -242,7 +245,7 @@ Citizen.CreateThread(function()
 					SetTextEntry("STRING")
 					AddTextComponentString(cbType..""..cbChannel)
 					DrawText(0.76, 0.885)
-				elseif GetPlayerBestCBRadio() == 94 then
+				elseif bestCB == 94 then
 					DrawSprite("rottenv", "highradio", 0.70-safeZoneOffset, 0.85+safeZoneOffset,0.26,0.33, 0.0, 255,255,255, 255)
 				
 					SetTextFont(2)
