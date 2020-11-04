@@ -70,7 +70,7 @@ Citizen.CreateThread(function()
 
 			if not v.xr then v.xr = v.r end
 
-			v.heightDistance = #(vector3(0.0,0.0,z) - vector3(0.0,0.0,v.z))
+			v.heightDistance = #(vector3(0.0,0.0,pCoords.z) - vector3(0.0,0.0,v.z))
 			
 			if v.distance < v.r-math.pi and v.heightDistance < v.xr then
 				DrawMissonText("You are in a ~g~Safezone!",0.25,0.96)
