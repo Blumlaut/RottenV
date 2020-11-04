@@ -25,7 +25,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(20)
 		for k,v in pairs(safezones) do
 			local pCoords = GetEntityCoords(PlayerPedId(), true)
-			local pdist = #(pCoords - v)
+			local pdist = #(pCoords - vector3(v.x,v.y,v.z))
 			if pdist < 180 then
 				if not v.xr then v.xr = v.r end
 				local handle, ped = FindFirstPed()
@@ -33,7 +33,7 @@ Citizen.CreateThread(function()
 				repeat
 					local pCoords = GetEntityCoords(PlayerPedId(), true)
 					v.zd = #(vector3(0.0,0.0,pCoords.z) - vector3(0.0,0.0,v.z))
-					if not IsPedAPlayer(ped) and #(pCoords - v) < v.r-math.pi and v.zd < v.xr then
+					if not IsPedAPlayer(ped) and #(pCoords - vector3(v.x,v.y,v.z)) < v.r-math.pi and v.zd < v.xr then
 						SetEntityAsMissionEntity(ped,true,true)
 						SetEntityHealth(ped,0.0)
 						SetEntityAsNoLongerNeeded(ped)
@@ -66,7 +66,7 @@ Citizen.CreateThread(function()
 		local VehPedIsUsing = GetVehiclePedIsUsing(playerped)
 		local pCoords = GetEntityCoords(playerped, true)
 		for k,v in pairs(safezones) do
-			v.distance = #(pCoords - v)
+			v.distance = #(pCoords - vector3(v.x,v.y,v.z))
 
 			if not v.xr then v.xr = v.r end
 
