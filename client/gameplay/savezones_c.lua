@@ -24,16 +24,16 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(20)
 		for k,v in pairs(safezones) do
-			local px,py,pz = table.unpack(GetEntityCoords(PlayerPedId(), true))
-			local pdist = Vdist2(px,py,pz, v.x,v.y,v.z)
+			local pCoords = GetEntityCoords(PlayerPedId(), true)
+			local pdist = #(pCoords - v)
 			if pdist < 180 then
 				if not v.xr then v.xr = v.r end
 				local handle, ped = FindFirstPed()
 				local finished = false -- FindNextPed will turn the first variable to false when it fails to find another ped in the index
 				repeat
-					local px,py,pz = table.unpack(GetEntityCoords(ped,true))
-					v.zd = Vdist2(0.0,0.0,pz,0.0,0.0,v.z)
-					if not IsPedAPlayer(ped) and Vdist2(px,py,pz, v.x,v.y,v.z) < v.r-math.pi and v.zd < v.xr then
+					local pCoords = GetEntityCoords(PlayerPedId(), true)
+					v.zd = #(vector3(0.0,0.0,pCoords.z) - vector3(0.0,0.0,v.z))
+					if not IsPedAPlayer(ped) and #(pCoords - v) < v.r-math.pi and v.zd < v.xr then
 						SetEntityAsMissionEntity(ped,true,true)
 						SetEntityHealth(ped,0.0)
 						SetEntityAsNoLongerNeeded(ped)
@@ -64,13 +64,13 @@ Citizen.CreateThread(function()
 		local PedInSeat = GetPedInVehicleSeat(GetVehiclePedIsUsing(playerped), -1) 
 		local IsPedInVeh = IsPedInAnyVehicle(playerped, true)
 		local VehPedIsUsing = GetVehiclePedIsUsing(playerped)
-		local x,y,z = table.unpack(GetEntityCoords(playerped, true))
+		local pCoords = GetEntityCoords(playerped, true)
 		for k,v in pairs(safezones) do
-			v.distance = Vdist2(x, y, z, v.x, v.y, v.z)
+			v.distance = #(pCoords - v)
 
 			if not v.xr then v.xr = v.r end
 
-			v.heightDistance = Vdist2(0.0,0.0,z,0.0,0.0,v.z)
+			v.heightDistance = #(vector3(0.0,0.0,z) - vector3(0.0,0.0,v.z))
 			
 			if v.distance < v.r-math.pi and v.heightDistance < v.xr then
 				DrawMissonText("You are in a ~g~Safezone!",0.25,0.96)
