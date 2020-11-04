@@ -1,9 +1,40 @@
+
+local questText = {}
+local seeThrough = false
+local nightVision = false
 Citizen.CreateThread(function() -- Data Refresh Thread
 	while true do 
 		safeZoneOffset = (GetSafeZoneSize() / 2.5) - 0.4
 		health = GetEntityHealth(PlayerPedId())
 		hunger = DecorGetFloat(PlayerPedId(), "hunger")
 		thirst = DecorGetFloat(PlayerPedId(), "thirst")
+
+		questText = {}
+		table.insert(questText, "Active Quest:")
+		for i,thereq in pairs( Quests[currentQuest.id].finishrequirements ) do
+			if i == "banditkills" and thereq > 0 then
+				table.insert(questText, "Bandits Killed: "..currentQuest.progress.banditkills.."/"..thereq)
+
+			elseif i == "zombiekills" and thereq > 0 then
+				table.insert(questText, "Zombies Killed: "..currentQuest.progress.zombiekills.."/"..thereq)
+			elseif i == "herokills" and thereq > 0 then
+				table.insert(questText, "Heroes Killed: "..currentQuest.progress.herokills.."/"..thereq)
+			elseif i == "stopCamps" and thereq > 0 then
+				table.insert(questText, "Mercenary Camps Stopped: "..currentQuest.progress.stopCamps.."/"..thereq)
+			elseif i == "items" and #thereq ~= 0 then
+				for index,item in pairs(thereq) do
+					if item.count > 1 and not consumableItems[item.id].isWeapon then
+						table.insert(questText, consumableItems[item.id].multipleCase.." "..math.round(consumableItems.count[item.id]).."/"..item.count)
+					elseif item.count == 1 and not consumableItems[item.id].isWeapon then
+						table.insert(questText, consumableItems[item.id].name.." "..math.round(consumableItems.count[item.id]).."/"..item.count)
+					elseif consumableItems[item.id].isWeapon then
+						table.insert(questText, consumableItems[item.id].name.." "..math.round(consumableItems.count[item.id]).."/"..item.count.."x")
+					end
+				end
+			end
+		end
+		seeThrough = IsSeethroughActive()
+		nightVision = IsNightvisionActive()
 		Wait(400)
 	end
 end)
@@ -153,32 +184,7 @@ Citizen.CreateThread(function()
 				end
 				
 				if currentQuest.active then
-					local texts = {}
-					table.insert(texts, "Active Quest:")
-					for i,thereq in pairs( Quests[currentQuest.id].finishrequirements ) do
-						if i == "banditkills" and thereq > 0 then
-							table.insert(texts, "Bandits Killed: "..currentQuest.progress.banditkills.."/"..thereq)
-
-						elseif i == "zombiekills" and thereq > 0 then
-							table.insert(texts, "Zombies Killed: "..currentQuest.progress.zombiekills.."/"..thereq)
-						elseif i == "herokills" and thereq > 0 then
-							table.insert(texts, "Heroes Killed: "..currentQuest.progress.herokills.."/"..thereq)
-						elseif i == "stopCamps" and thereq > 0 then
-							table.insert(texts, "Mercenary Camps Stopped: "..currentQuest.progress.stopCamps.."/"..thereq)
-						elseif i == "items" and #thereq ~= 0 then
-							for index,item in pairs(thereq) do
-								if item.count > 1 and not consumableItems[item.id].isWeapon then
-									table.insert(texts, consumableItems[item.id].multipleCase.." "..math.round(consumableItems.count[item.id]).."/"..item.count)
-								elseif item.count == 1 and not consumableItems[item.id].isWeapon then
-									table.insert(texts, consumableItems[item.id].name.." "..math.round(consumableItems.count[item.id]).."/"..item.count)
-								elseif consumableItems[item.id].isWeapon then
-									table.insert(texts, consumableItems[item.id].name.." "..math.round(consumableItems.count[item.id]).."/"..item.count.."x")
-								end
-							end
-						end
-					end
-	
-					for i,t in ipairs(texts) do 
+					for i,t in ipairs(questText) do 
 						SetTextFont(0)
 						SetTextProportional(1)
 						SetTextScale(0.0, 0.4)
@@ -193,7 +199,7 @@ Citizen.CreateThread(function()
 					end
 				end
 				
-				if IsSeethroughActive() then
+				if seeThrough then
 					SetTextFont(4)
 					SetTextProportional(1)
 					SetTextScale(0.0, 0.6)
@@ -205,7 +211,7 @@ Citizen.CreateThread(function()
 					SetTextEntry("STRING")
 					AddTextComponentString(consumableItems[89].charge.."%")
 					DrawText(0.6, 0.85)
-				elseif IsNightvisionActive() then
+				elseif nightVision then
 					SetTextFont(4)
 					SetTextProportional(1)
 					SetTextScale(0.0, 0.6)
@@ -330,9 +336,9 @@ Citizen.CreateThread(function()
 					
 				
 				local talkingPlayers = {}
-				for i=0,255 do
-					if NetworkIsPlayerTalking(i) then
-						table.insert(talkingPlayers,{id = i,ped = GetPlayerPed(i),name = GetPlayerName(i)})
+				for _,player in pairs(GetActivePlayers()) do
+					if NetworkIsPlayerTalking(player) then
+						table.insert(talkingPlayers,{id = player,ped = GetPlayerPed(player),name = GetPlayerName(player)})
 					end
 				end
 				
