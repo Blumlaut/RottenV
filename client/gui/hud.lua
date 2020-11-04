@@ -10,25 +10,27 @@ Citizen.CreateThread(function() -- Data Refresh Thread
 		thirst = DecorGetFloat(PlayerPedId(), "thirst")
 
 		questText = {}
-		table.insert(questText, "Active Quest:")
-		for i,thereq in pairs( Quests[currentQuest.id].finishrequirements ) do
-			if i == "banditkills" and thereq > 0 then
-				table.insert(questText, "Bandits Killed: "..currentQuest.progress.banditkills.."/"..thereq)
+		if currentQuest.active then 
+			table.insert(questText, "Active Quest:")
+			for i,thereq in pairs( Quests[currentQuest.id].finishrequirements ) do
+				if i == "banditkills" and thereq > 0 then
+					table.insert(questText, "Bandits Killed: "..currentQuest.progress.banditkills.."/"..thereq)
 
-			elseif i == "zombiekills" and thereq > 0 then
-				table.insert(questText, "Zombies Killed: "..currentQuest.progress.zombiekills.."/"..thereq)
-			elseif i == "herokills" and thereq > 0 then
-				table.insert(questText, "Heroes Killed: "..currentQuest.progress.herokills.."/"..thereq)
-			elseif i == "stopCamps" and thereq > 0 then
-				table.insert(questText, "Mercenary Camps Stopped: "..currentQuest.progress.stopCamps.."/"..thereq)
-			elseif i == "items" and #thereq ~= 0 then
-				for index,item in pairs(thereq) do
-					if item.count > 1 and not consumableItems[item.id].isWeapon then
-						table.insert(questText, consumableItems[item.id].multipleCase.." "..math.round(consumableItems.count[item.id]).."/"..item.count)
-					elseif item.count == 1 and not consumableItems[item.id].isWeapon then
-						table.insert(questText, consumableItems[item.id].name.." "..math.round(consumableItems.count[item.id]).."/"..item.count)
-					elseif consumableItems[item.id].isWeapon then
-						table.insert(questText, consumableItems[item.id].name.." "..math.round(consumableItems.count[item.id]).."/"..item.count.."x")
+				elseif i == "zombiekills" and thereq > 0 then
+					table.insert(questText, "Zombies Killed: "..currentQuest.progress.zombiekills.."/"..thereq)
+				elseif i == "herokills" and thereq > 0 then
+					table.insert(questText, "Heroes Killed: "..currentQuest.progress.herokills.."/"..thereq)
+				elseif i == "stopCamps" and thereq > 0 then
+					table.insert(questText, "Mercenary Camps Stopped: "..currentQuest.progress.stopCamps.."/"..thereq)
+				elseif i == "items" and #thereq ~= 0 then
+					for index,item in pairs(thereq) do
+						if item.count > 1 and not consumableItems[item.id].isWeapon then
+							table.insert(questText, consumableItems[item.id].multipleCase.." "..math.round(consumableItems.count[item.id]).."/"..item.count)
+						elseif item.count == 1 and not consumableItems[item.id].isWeapon then
+							table.insert(questText, consumableItems[item.id].name.." "..math.round(consumableItems.count[item.id]).."/"..item.count)
+						elseif consumableItems[item.id].isWeapon then
+							table.insert(questText, consumableItems[item.id].name.." "..math.round(consumableItems.count[item.id]).."/"..item.count.."x")
+						end
 					end
 				end
 			end
