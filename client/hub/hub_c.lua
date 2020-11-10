@@ -56,11 +56,16 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		NearStore = false
 		for i,Stall in pairs(Stores) do
-			if #(GetEntityCoords(PlayerPedId(), true) - vector3(Stall.location[1], Stall.location[2], Stall.location[3])) <= 10 then
+			DistanceToStall = #(GetEntityCoords(PlayerPedId(), true) - vector3(Stall.location[1], Stall.location[2], Stall.location[3]))
+			if DistanceToStall <= 10 then
+				if not InStore then 
+					DrawText3D(Stall.location[1], Stall.location[2], Stall.location[3]+1.3, 10.0, Stall.name) 
+				end
+			end
+			if DistanceToStall <= 2 then
 				NearStore = true
 				if not InStore then
 					HelpText("Press ~INPUT_CONTEXT~ to enter the ~g~"..Stall.name)
-					DrawText3D(Stall.location[1], Stall.location[2], Stall.location[3]+1.3, 10.0, Stall.name)
 				end
 				if IsControlJustPressed(0, 51) and not InStore then
 					InStore = true
