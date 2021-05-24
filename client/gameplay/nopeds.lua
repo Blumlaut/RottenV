@@ -52,7 +52,8 @@ Citizen.CreateThread(function()
         for _, model in next, SUPPRESSED_MODELS do
             SetVehicleModelIsSuppressed(GetHashKey(model), true)
         end
-        Wait(10000)
+		RemoveVehiclesFromGeneratorsInArea(x - 500.0, y - 500.0, z - 500.0, x + 500.0, y + 500.0, z + 500.0);
+        Wait(30000)
     end
 end)
 
@@ -68,7 +69,6 @@ Citizen.CreateThread(function()
 		SetScenarioPedDensityMultiplierThisFrame(0.0, 0.0)
 
 		local x,y,z = table.unpack(GetEntityCoords(PlayerPedId()))
-		RemoveVehiclesFromGeneratorsInArea(x - 500.0, y - 500.0, z - 500.0, x + 500.0, y + 500.0, z + 500.0);
 
 		Citizen.Wait(1)
 	end
