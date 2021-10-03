@@ -128,7 +128,7 @@ Citizen.CreateThread(function()
 			
 			-- we dont actually need Entity Ownership anymore since another client will take over, and it didnt work to begin with
 			
-			if #(vector3(x,y, z) - GetEntityCoords(cargoplane)) < 50.0 then
+			if #(vector3(x,y, z) - GetEntityCoords(cargoplane)) < 350.0 then
 				dropdone = true
 				TriggerServerEvent("TellAirdropToFuckOffAndUnregister", {planeNet = planeNet, pilotNet = pilotNet})
 				SetEntityAsNoLongerNeeded(pilot)
