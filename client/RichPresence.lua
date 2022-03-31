@@ -1,5 +1,13 @@
 local StatusQueue = {}
 
+if config.enabledrp then
+	Citizen.CreateThread(function()
+		while true do
+			Citizen.Wait(300000)
+			SetDiscordAppId(config.appid)
+		end
+	end)
+end
 
 function SetNextRichPresence(label)
 	table.insert(StatusQueue,1,label)
