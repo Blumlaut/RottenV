@@ -148,7 +148,7 @@ Citizen.CreateThread(function()
 			GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_FLASHLIGHT"), 1, false, false)
 			GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_BAT"), 1, false, false)
 			GiveWeaponToPed(PlayerPedId(), 0xFBAB5776, true)
-			
+			DisplayRadar(displayRadar)
 			SetPedDropsWeaponsWhenDead(PlayerPedId(),true)
 			NetworkSetFriendlyFireOption(true)
 			SetCanAttackFriendly(PlayerPedId(), true, true)
