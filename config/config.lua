@@ -37,7 +37,7 @@ config.enableDynoWeather = true
 
 -- Do we want Discord Rich Presence
 config.enabledrp = false
-config.appid = --https://discord.com/developers/applications
+config.appid = 0 --https://discord.com/developers/applications
 
 -- Time in Days, how long should it take for safes to expire if they haven't been opened?
 config.SafeExpirationTime = 7
