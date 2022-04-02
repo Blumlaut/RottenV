@@ -1,22 +1,21 @@
 local baseTemp = 37.0 -- base body heat
 local isLosingBlood = false
 local curWeatherTemp = 37.0
-local curWeather, curWeatherTemp = 0, 0
+local curWeather = 0
 
 local weatherTemps = {
 	{weather = "CLEAR", temp = 37.0}, -- weather name and avg body temp
-	{weather = "EXTRASUNNY", temp = 37.3},
-	{weather = "CLOUDS", temp = 37.0},
+	{weather = "EXTRASUNNY", temp = 38.3},
+	{weather = "CLOUDS", temp = 36.6},
 	{weather = "OVERCAST", temp = 37.0},
-	{weather = "RAIN", temp = 36.6},
+	{weather = "RAIN", temp = 35.6},
 	{weather = "CLEARING", temp = 37.0},
-	{weather = "THUNDER", temp = 36.6},
+	{weather = "THUNDER", temp = 35.6},
 	{weather = "SMOG", temp = 37.0},
-	{weather = "FOGGY", temp = 36.5},
-	{weather = "XMAS", temp = 34.0},
-	{weather = "XMAS", temp = 34.0},
-	{weather = "SNOWLIGHT", temp = 34.0},
-	{weather = "BLIZZARD", temp = 34.0},
+	{weather = "FOGGY", temp = 36.3},
+	{weather = "XMAS", temp = 33.0},
+	{weather = "SNOWLIGHT", temp = 33.6},
+	{weather = "BLIZZARD", temp = 33.0},
 }
 
 Citizen.CreateThread(function()
@@ -28,11 +27,11 @@ Citizen.CreateThread(function()
 			curWeatherTemp = 37.0
 		end
 		if baseTemp > curWeatherTemp then
-			baseTemp = baseTemp-0.01
+			baseTemp = baseTemp-0.1
 		elseif baseTemp < curWeatherTemp then
-			 baseTemp = baseTemp+0.01
+			 baseTemp = baseTemp+0.1
 		end
-		Wait(10000)
+		Wait(5000)
 	end
 end)
 
@@ -45,5 +44,16 @@ Citizen.CreateThread(function()
 			end
 		end
 		Wait(20000)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		local localPlayerPed = PlayerPedId()
+		local health = GetEntityHealth(localPlayerPed)
+		if(baseTemp<=35.6 or baseTemp>=37.1) then
+			SetEntityHealth(localPlayerPed,health-2)
+		end
+		Wait(10000)
 	end
 end)
