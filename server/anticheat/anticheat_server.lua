@@ -1,11 +1,6 @@
 local webhook = "WEBHOOK_URL"
-
-
 Users = {}
 violations = {}
-
-
-
 hashValidatedUsers = {}
 
 Citizen.CreateThread(function()
@@ -20,7 +15,6 @@ Citizen.CreateThread(function()
 	end)
 end)
 
-
 local function RemovePlayerFromHashCheck(username,identifier)
 	for i,user in pairs(hashValidatedUsers) do
 		if user.identifier == identifier then
@@ -29,22 +23,15 @@ local function RemovePlayerFromHashCheck(username,identifier)
 	end
 end
 
-
-
-
 Citizen.CreateThread(function()
 	AddEventHandler('playerConnecting', function(playerName)
 		table.insert(hashValidatedUsers, { identifier = GetPlayerIdentifier(source,1), joining = true, waitTime = 0, verified = false, hashes = FilesHashesToVerify })
 	end)
 end) 
 
-
-
 Citizen.CreateThread(function()
 	ServerReady = true
 end)
-
-
 
 Citizen.CreateThread(function()
 	AddEventHandler("scrambler:injectionDetected", function(e,p)
@@ -98,7 +85,7 @@ Citizen.CreateThread(function()
 			if thePlayer.name == name then
 				isKnown = true
 				if violations[i].count == 2 then
-					TriggerEvent("banCheater", playerid,"Cheating")
+					TriggerEvent("EasyAdmin:addBan", playerid,"Cheating")
 					isKnownCount = violations[i].count
 					table.remove(violations,i)
 					isKnownExtraText = ", was banned."
@@ -128,16 +115,7 @@ Citizen.CreateThread(function()
 		end
 		return license, steam
 	end
-
-
-
-
 end)
-
-
-
-
-
 
 -- event table, add your own resource/events here.
 
@@ -320,12 +298,6 @@ Citizen.CreateThread(function()
 	end
 end)
 
-
-
-
-
-
-
 --[[ this is now unusable 
 EVENT_PREFIXES = {
     "esx_society",
@@ -369,4 +341,3 @@ for _, prefix in next, EVENT_PREFIXES do
 end
 
 ]]
-
