@@ -34,7 +34,6 @@ server_scripts {
 	"server/hub/questshop_s.lua",
 	"server/hub/gamble_s.lua",
 	"server/anticheat/anticheat_server.lua",
-	"server/handlers/hostname.lua",
 	"server/prometheus.lua",
 }
 
