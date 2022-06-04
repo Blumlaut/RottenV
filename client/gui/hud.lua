@@ -6,8 +6,8 @@ Citizen.CreateThread(function() -- Data Refresh Thread
 	while true do 
 		safeZoneOffset = (GetSafeZoneSize() / 2.5) - 0.4
 		health = GetEntityHealth(PlayerPedId())
-		hunger = DecorGetFloat(PlayerPedId(), "hunger")
-		thirst = DecorGetFloat(PlayerPedId(), "thirst")
+		hunger = LocalPlayer.state.hunger
+		thirst = LocalPlayer.state.thirst
 
 		questText = {}
 		if currentQuest.active then 

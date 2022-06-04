@@ -127,7 +127,7 @@ Citizen.CreateThread(function()
 					end
 					
 					if WarMenu.Button(Ped.name, DisplayPrice) then
-						savedHunger,savedThirst,savedWeapons,attaches = DecorGetFloat(PlayerPedId(),"hunger"),DecorGetFloat(PlayerPedId(),"thirst"),{},{}
+						savedHunger,savedThirst,savedWeapons,attaches = LocalPlayer.state.hunger,LocalPlayer.state.thirst,{},{}
 						for i,theItem in ipairs(consumableItems) do
 							local ammocount = consumableItems.count[i]
 							local attaches = {}
@@ -172,8 +172,8 @@ Citizen.CreateThread(function()
 									SetPlayerModel(PlayerId(), Ped.model)
 									SetPedRandomComponentVariation(PlayerPedId(), true)
 									Wait(200)
-									DecorSetFloat(PlayerPedId(), "hunger", savedHunger)
-									DecorSetFloat(PlayerPedId(), "thirst", savedThirst)
+									LocalPlayer.state.hunger = savedHunger
+									LocalPlayer.state.thirst = savedThirst
 									for i,w in ipairs(savedWeapons) do
 										consumableItems.count[i] = w.count
 										if consumableItems[i].isWeapon and w.count ~= 0 then

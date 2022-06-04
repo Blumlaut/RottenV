@@ -68,26 +68,26 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(60000)
 		local curPed = PlayerPedId()
-		local curHunger = DecorGetFloat(PlayerPedId(), "hunger")
-		local curThirst = DecorGetFloat(PlayerPedId(), "thirst")
-		DecorSetFloat(PlayerPedId(), "hunger", curHunger-2)
-		DecorSetFloat(PlayerPedId(), "thirst", curThirst-2)
+		local curHunger = LocalPlayer.state.hunger
+		local curThirst = LocalPlayer.state.thirst
+		LocalPlayer.state.hunger = curHunger-2
+		LocalPlayer.state.thirst = curThirst-2
 		
 		local curWait = math.random(10,50)
 		
 		Citizen.Wait(curWait)
 
 		if not IsPlayerDead(PlayerId()) then
-			if PlayerPedId() == curPed and DecorGetFloat(PlayerPedId(), "hunger") == curHunger and GetEntityHealth(curPed) ~= 0 then
-				TriggerServerEvent("AntiCheese:CustomFlag", "Hunger Cheating", "has regenerated "..DecorGetFloat(PlayerPedId(), "hunger")-curHunger.."% Hunger in "..curWait.."ms")
-			elseif DecorGetFloat(PlayerPedId(), "hunger") <= curHunger-2 then
-				DecorSetFloat(PlayerPedId(), "hunger", DecorGetFloat(PlayerPedId(), "hunger")+2)
+			if PlayerPedId() == curPed and LocalPlayer.state.hunger == curHunger and GetEntityHealth(curPed) ~= 0 then
+				TriggerServerEvent("AntiCheese:CustomFlag", "Hunger Cheating", "has regenerated "..LocalPlayer.state.hunger-curHunger.."% Hunger in "..curWait.."ms")
+			elseif LocalPlayer.state.hunger <= curHunger-2 then
+				LocalPlayer.state.hunger = LocalPlayer.state.hunger+2
 			end 
 			
-			if PlayerPedId() == curPed and DecorGetFloat(PlayerPedId(), "thirst") == curThirst and GetEntityHealth(curPed) ~= 0 then
-				TriggerServerEvent("AntiCheese:CustomFlag", "Thirst Cheating", "has regenerated "..DecorGetFloat(PlayerPedId(), "thirst")-curThirst.."% Thirst in "..curWait.."ms")
-			elseif DecorGetFloat(PlayerPedId(), "thirst") <= curThirst-2 then
-				DecorSetFloat(PlayerPedId(), "thirst", DecorGetFloat(PlayerPedId(), "thirst")+2)
+			if PlayerPedId() == curPed and LocalPlayer.state.thirst == curThirst and GetEntityHealth(curPed) ~= 0 then
+				TriggerServerEvent("AntiCheese:CustomFlag", "Thirst Cheating", "has regenerated "..LocalPlayer.state.thirst-curThirst.."% Thirst in "..curWait.."ms")
+			elseif LocalPlayer.state.thirst <= curThirst-2 then
+				LocalPlayer.state.thirst = LocalPlayer.state.thirst+2
 			end 
 			
 		end
