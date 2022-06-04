@@ -53,20 +53,20 @@ Citizen.CreateThread(function()
 			PreparedPlayerData[steamid] = {ids = 0, name = GetPlayerName(client), steamid = steamid, license = license, discord = 0, x = -276.6, y=-322.8, z=30.00, hunger = 99.9, thirst = 99.9, weapons = "[]", inv = json.encode(tint), health=200, playerkillsthislife=50,zombiekillsthislife=50,playerkills=50,zombiekills=50, humanity=500, infected="false", money = 500000, locker_money=10000, wheelspins=99, playtime="0:1", currentQuest="[]",finishedQuests="[]", customskin=""}
 			cooked = true
 		else
-			exports['ghmattimysql']:execute('SELECT * FROM players where steamid=@steamid LIMIT 1', { steamid = steamid }, function(player)
+			MySQL.query('SELECT * FROM players where steamid=@steamid LIMIT 1', { steamid = steamid }, function(player)
 				if player[1] then
 					if player[1].steamid == GetPlayerSpecificIdentifier(client,"steam") then
 						
 						if discord and player[1].discord ~= string.gsub(discord, "discord:", "") then
 							discord = string.gsub(discord, "discord:", "")
-							exports['ghmattimysql']:execute('UPDATE players SET discord=@discord WHERE steamid=@steamid LIMIT 1', { discord = discord, steamid = steamid }, function() end)
+							MySQL.query.await('UPDATE players SET discord=@discord WHERE steamid=@steamid LIMIT 1', { discord = discord, steamid = steamid }, function() end)
 							player[1].discord = discord
 						end
 						PreparedPlayerData[steamid] = player[1]
 						cooked = true
 					end
 				else
-					exports['ghmattimysql']:execute('INSERT INTO players (steamid, x, y, z, hunger, thirst, license, name, discord, inv, currentQuest, finishedQuests) VALUES(@steamid, 0.0, 0.0, 77.0, 100.0, 100.0, @license, @name, "", "[]", "{}", "{}") ', { steamid = steamid, license = license, discord = discord or "", name = GetPlayerName(client) }, function() end)
+					MySQL.query.await('INSERT INTO players (steamid, x, y, z, hunger, thirst, license, name, discord, inv, currentQuest, finishedQuests) VALUES(@steamid, 0.0, 0.0, 77.0, 100.0, 100.0, @license, @name, "", "[]", "{}", "{}") ', { steamid = steamid, license = license, discord = discord or "", name = GetPlayerName(client) }, function() end)
 					PreparedPlayerData[steamid] = nil
 					cooked = true
 				end
@@ -183,7 +183,7 @@ Citizen.CreateThread(function()
 		local license = GetPlayerSpecificIdentifier(client,"license")
 		writeLog("\nClient Requested Save!\n", 1)
 		if not TESTMODE then
-			exports['ghmattimysql']:execute('UPDATE players SET x=@x, y=@y, z=@z, hunger=@hunger, thirst=@thirst, inv=@inv, health=@health, playerkillsthislife=@playerkillsthislife, zombiekillsthislife=@zombiekillsthislife, playerkills=@playerkills, zombiekills=@zombiekills, humanity=@humanity, money=@money, locker_money=@locker_money, wheelspins=@wheelspins,infected=@infected, playtime=@playtime, currentQuest=@currentQuest, finishedQuests=@finishedQuests, name=@name, license=@license, steamid=@steamid WHERE steamid=@steamid', {name = GetPlayerName(client), x = data.posX, y = data.posY, z = data.posZ, hunger = data.hunger, thirst = data.thirst, inv = data.inv, health = data.health, playerkillsthislife = data.playerkillsthislife, zombiekillsthislife = data.zombiekillsthislife, playerkills = data.playerkills, zombiekills = data.zombiekills, humanity = data.humanity, money = data.money, locker_money = data.locker_money, wheelspins=data.wheelspins,infected = tostring( data.infected ), playtime = data.playtime.hour..':'..data.playtime.minute, currentQuest = data.currentQuest, finishedQuests = data.finishedQuests, license = license, steamid = steamid  }, function() end)
+			MySQL.query('UPDATE players SET x=@x, y=@y, z=@z, hunger=@hunger, thirst=@thirst, inv=@inv, health=@health, playerkillsthislife=@playerkillsthislife, zombiekillsthislife=@zombiekillsthislife, playerkills=@playerkills, zombiekills=@zombiekills, humanity=@humanity, money=@money, locker_money=@locker_money, wheelspins=@wheelspins,infected=@infected, playtime=@playtime, currentQuest=@currentQuest, finishedQuests=@finishedQuests, name=@name, license=@license, steamid=@steamid WHERE steamid=@steamid', {name = GetPlayerName(client), x = data.posX, y = data.posY, z = data.posZ, hunger = data.hunger, thirst = data.thirst, inv = data.inv, health = data.health, playerkillsthislife = data.playerkillsthislife, zombiekillsthislife = data.zombiekillsthislife, playerkills = data.playerkills, zombiekills = data.zombiekills, humanity = data.humanity, money = data.money, locker_money = data.locker_money, wheelspins=data.wheelspins,infected = tostring( data.infected ), playtime = data.playtime.hour..':'..data.playtime.minute, currentQuest = data.currentQuest, finishedQuests = data.finishedQuests, license = license, steamid = steamid  }, function() end)
 		end
 	end)
 end)

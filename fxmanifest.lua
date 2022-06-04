@@ -1,6 +1,6 @@
 fx_version 'cerulean'
 games { 'gta5' }
-dependency 'ghmattimysql'
+dependency 'oxmysql'
 dependency 'pogressBar'
 
 shared_scripts {
@@ -8,6 +8,7 @@ shared_scripts {
 }
 
 server_scripts {
+	"@oxmysql/lib/MySQL.lua",
 	"shared/gameplay/weatherconfig.lua",
 	"shared/useful/loghandler.lua",
 	"server/main.lua",

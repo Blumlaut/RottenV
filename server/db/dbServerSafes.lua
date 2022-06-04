@@ -20,7 +20,7 @@ Citizen.CreateThread(function()
 		safes = {}
 		Wait(500)
 		if not TESTMODE then
-			exports['ghmattimysql']:execute('SELECT * FROM safes', {}, function(data)
+			MySQL.query('SELECT * FROM safes', {}, function(data)
 				for i,theSafe in pairs(data) do
 					Citizen.Wait(10)
 					theSafe.x = tonumber(theSafe.x)
@@ -46,7 +46,7 @@ Citizen.CreateThread(function()
 						theSafe.visible = true
 						table.insert(safes,theSafe)
 					elseif os.time()-theSafe.creationTime > ((config.SafeExpirationTime*86400)+(config.SafeUnlockTime*86400)) then
-						exports['ghmattimysql']:execute('DELETE FROM safes WHERE id=@id', {id=theSafe.id}, function() end)
+						MySQL.query('DELETE FROM safes WHERE id=@id', {id=theSafe.id}, function() end)
 					else
 						table.insert(safes,theSafe)
 					end
@@ -66,7 +66,7 @@ Citizen.CreateThread(function()
 		if not GetPlayerIdentifier(client,0) then return end
 		local inv = {}
 		local id = -1
-		exports['ghmattimysql']:execute('INSERT INTO safes (creationTime,owner,passcode,x,y,z,r,inv) VALUES(@creationTime, @owner, @passcode, @x, @y, @z, @r, @inv) ', { creationTime = os.time(), owner = GetPlayerIdentifier(client,0), passcode = passcode, x = x, y = y, z = z, r = r, inv = json.encode(inv) }, 
+		MySQL.query('INSERT INTO safes (creationTime,owner,passcode,x,y,z,r,inv) VALUES(@creationTime, @owner, @passcode, @x, @y, @z, @r, @inv) ', { creationTime = os.time(), owner = GetPlayerIdentifier(client,0), passcode = passcode, x = x, y = y, z = z, r = r, inv = json.encode(inv) }, 
 		function(response)
 			id = response.insertId -- assign an  id
 		end)
@@ -104,7 +104,7 @@ Citizen.CreateThread(function()
 		if not GetPlayerIdentifier(client,0) then return end
 		for i,theSafe in pairs(safes) do
 			if id == theSafe.id and passcode == theSafe.passcode and passcode ~= "0000" and theSafe.permanent then
-				exports['ghmattimysql']:execute('DELETE FROM safes WHERE id=@id LIMIT 1', {id=id}, function() end)
+				MySQL.query('DELETE FROM safes WHERE id=@id LIMIT 1', {id=id}, function() end)
 				table.remove(safes,i)
 				writeLog("\nSafe "..id.." Deleted!\n", 1)
 				TriggerClientEvent("removeSafe", -1, id)
@@ -130,7 +130,7 @@ Citizen.CreateThread(function()
 				safes[i].usageTime = os.time()
 				foundSafe = true
 				if passcode ~= "0000" then
-					exports['ghmattimysql']:execute('UPDATE safes SET creationTime=@creationTime WHERE id=@id LIMIT 1', {creationTime = os.time(), id = id}, function() end)
+					MySQL.query('UPDATE safes SET creationTime=@creationTime WHERE id=@id LIMIT 1', {creationTime = os.time(), id = id}, function() end)
 				end
 				writeLog("\nPlayer Opened Safe!\n", 1)
 				break
@@ -161,7 +161,7 @@ Citizen.CreateThread(function()
 		for i,theSafe in pairs(safes) do
 			if id == theSafe.id and passcode == theSafe.passcode then
 				if theSafe.permanent then
-					exports['ghmattimysql']:execute('UPDATE safes SET inv=@inv WHERE id=@id LIMIT 1', { inv = json.encode(inv), id = id }, function() end)
+					MySQL.query('UPDATE safes SET inv=@inv WHERE id=@id LIMIT 1', { inv = json.encode(inv), id = id }, function() end)
 				end
 				foundSafe = true
 				safes[i].inv = inv
