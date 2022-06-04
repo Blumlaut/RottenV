@@ -481,7 +481,6 @@ Citizen.CreateThread(function()
 	SetRelationshipBetweenGroups(5, GetHashKey("PLAYER"), GetHashKey("zombeez"))
 	DecorRegister("C8pE53jw", 2)
 	DecorRegister("zombie", 2)
-	DecorRegister("IsBoss", 3)
 
 	SetAiMeleeWeaponDamageModifier(2.0)
 
@@ -532,7 +531,7 @@ Citizen.CreateThread(function()
 				SetEntityHealth(ped, th)
 				SetPedSeeingRange(ped, 40.0)
 				SetEntityMaxSpeed(ped, 8.0)
-				DecorSetInt(ped, "IsBoss", 1)
+				Entity(ped).state:set("IsBoss", 1, true)
 				SetPedSuffersCriticalHits(ped, false)
 				SetPedRagdollBlockingFlags(ped, 1)
 				SetPedRagdollBlockingFlags(ped, 4)
@@ -596,9 +595,9 @@ Citizen.CreateThread(function()
 				-- Set ped as no longer needed for despawning
 				if distancebetweenpedandplayer < 200.0 then
 					local dropChance = math.random(0,100)
-					if dropChance >= 95 and not DecorGetInt(ped, "IsBoss") == 1 then
+					if dropChance >= 95 and not Entity(ped).state.IsBoss == 1 then
 						TriggerServerEvent("ForceCreateFoodPickupAtCoord", pedX,pedY,pedZ)
-					elseif DecorGetInt(ped, "IsBoss") == 1 and not IsEntityOnFire(ped) then
+					elseif Entity(ped).state.IsBoss == 1 and not IsEntityOnFire(ped) then
 						writeLog("\nGENERATING BOSS DROP", 1)
 						local minItems = math.random(3,10)
 						local minGuns = math.random(1,3)
@@ -731,7 +730,7 @@ Citizen.CreateThread(function()
 	while true do
 		Wait(1)
 		for i,ped in pairs(zombies) do
-			if DecorGetInt(ped, "IsBoss") == 1 then
+			if Entity(ped).state.IsBoss == 1 then
 				pedX, pedY, pedZ = table.unpack(GetEntityCoords(ped, true))
 				DrawLightWithRangeAndShadow(pedX, pedY, pedZ + 0.4, 255, 0, 0, 4.0, 50.0, 5.0)
 			end

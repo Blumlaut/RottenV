@@ -124,3 +124,5 @@ files {
 }
    
 data_file 'DLC_ITYP_REQUEST' 'stream/def_props.ytyp'
+
+loadscreen_manual_shutdown 'yes'
