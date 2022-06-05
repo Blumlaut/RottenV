@@ -95,7 +95,7 @@ client_scripts {
 }
 
 
-resource_type 'map' { gameTypes = { fivem = true } }
+resource_type 'map' { gameTypes = { ['basic-gamemode'] = true } }
 
 map 'map.lua'
 
