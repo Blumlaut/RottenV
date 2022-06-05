@@ -110,6 +110,9 @@ Citizen.CreateThread( function()
 			
 		local inventory = data.inv
 		local hunger = data.hunger
+		LocalPlayer.state.thirst = data.thirst
+		LocalPlayer.state.hunger = data.hunger
+		
 		local thirst = data.thirst
 		local isInfected = data.isInfected
 		local x,y,z = tonumber(data.x), tonumber(data.y), tonumber(data.z)
@@ -239,8 +242,6 @@ Citizen.CreateThread( function()
 			end
 		end
 
-		DecorSetFloat(playerPed, "hunger", hunger)
-		DecorSetFloat(playerPed, "thirst", thirst)
 		if not DoesPlayerHaveCBRadio() then -- make sure player has at least the basic CB
 			consumableItems.count[92] = 1
 		end
@@ -342,8 +343,8 @@ Citizen.CreateThread(function()
 		end
 		local playerPed = PlayerPedId()
 		local posX,posY,posZ = table.unpack(GetEntityCoords(playerPed,true))
-		local hunger = DecorGetFloat(PlayerPedId(),"hunger")
-		local thirst = DecorGetFloat(PlayerPedId(),"thirst")
+		local hunger = LocalPlayer.state.hunger
+		local thirst = LocalPlayer.state.thirst
 		local playerkills = playerkills
 		local zombiekills = zombiekills
 		local playerkillsthislife = playerkillsthislife

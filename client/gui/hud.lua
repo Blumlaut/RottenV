@@ -6,8 +6,8 @@ Citizen.CreateThread(function() -- Data Refresh Thread
 	while true do 
 		safeZoneOffset = (GetSafeZoneSize() / 2.5) - 0.4
 		health = GetEntityHealth(PlayerPedId())
-		hunger = DecorGetFloat(PlayerPedId(), "hunger")
-		thirst = DecorGetFloat(PlayerPedId(), "thirst")
+		hunger = LocalPlayer.state.hunger
+		thirst = LocalPlayer.state.thirst
 
 		questText = {}
 		if currentQuest.active then 
@@ -343,7 +343,7 @@ Citizen.CreateThread(function()
 				end
 				
 				local _,AimedAtPed = GetEntityPlayerIsFreeAimingAt(PlayerId())
-				if AimedAtPed and IsEntityAPed(AimedAtPed) and DecorGetInt(AimedAtPed, "IsBoss") == 1 then
+				if AimedAtPed and IsEntityAPed(AimedAtPed) and Entity(AimedAtPed).state.IsBoss == true then
 					local percent = (100/(GetEntityMaxHealth(AimedAtPed)-100)) * (GetEntityHealth(AimedAtPed)-100)
 					if percent < 0 then percent = 0 end
 					local percent = percent/100

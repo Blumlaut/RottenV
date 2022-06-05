@@ -76,7 +76,7 @@ function GenerateRandomVehicle(maxVehicles)
 		end
 
 		car = CreateVehicle(choosenCar, newVehicleX, NewVehicleY, NewVehicleZ, math.random(0,360)+.0, true, false)
-		DecorSetBool(car, "C8pE53jw", true)
+		Entity(car).state:set("C8pE53jw", true, true)
 		SetVehicleFuelLevel(car, math.random() + math.random(10, 80))
 		SetVehicleEngineHealth(car, math.random(300,1000)+0.0)
 		PlaceObjectOnGroundProperly(car)

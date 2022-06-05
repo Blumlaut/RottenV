@@ -95,7 +95,7 @@ client_scripts {
 }
 
 
-resource_type 'map' { gameTypes = { fivem = true } }
+resource_type 'map' { gameTypes = { ['basic-gamemode'] = true } }
 
 map 'map.lua'
 
@@ -124,3 +124,5 @@ files {
 }
    
 data_file 'DLC_ITYP_REQUEST' 'stream/def_props.ytyp'
+
+loadscreen_manual_shutdown 'yes'

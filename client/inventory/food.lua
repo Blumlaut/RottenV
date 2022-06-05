@@ -11,8 +11,8 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local pid = PlayerId()
 		local ppid = PlayerPedId()
-		local thirst = DecorGetFloat(ppid,"thirst")
-		local hunger = DecorGetFloat(ppid,"hunger")
+		local thirst = LocalPlayer.state.thirst
+		local hunger = LocalPlayer.state.hunger
 		
 		if infected then
 			SetPlayerHealthRechargeMultiplier(pid, 0.01)
@@ -20,22 +20,22 @@ Citizen.CreateThread(function()
 			SetPlayerHealthRechargeMultiplier(pid, 0.3)
 		end
 		if hunger > 100.0 then
-			DecorSetFloat(ppid, "hunger", 100.0)
-			hunger = DecorGetFloat(ppid,"hunger")
+			LocalPlayer.state.hunger = 100.0
+			hunger = LocalPlayer.state.hunger
 		end
 		if thirst > 100.0 then
-			DecorSetFloat(ppid, "thirst", 100.0)
-			thirst = DecorGetFloat(ppid,"thirst")
+			LocalPlayer.state.thirst = 100.0
+			thirst = LocalPlayer.state.thirst
 		end
 		if IsPedSprinting(ppid) then
-			DecorSetFloat(ppid, "hunger", hunger-SprintingHungerLoss)
-			DecorSetFloat(ppid, "thirst", thirst-SprintingThirstLoss)
+			LocalPlayer.state.hunger = hunger-SprintingHungerLoss
+			LocalPlayer.state.thirst = thirst-SprintingThirstLoss
 		elseif IsPedInVehicle(ppid) then
-			DecorSetFloat(ppid, "hunger", hunger-drivingHungerLoss)
-			DecorSetFloat(ppid, "thirst", thirst-drivingThirstLoss)
+			LocalPlayer.state.hunger = hunger-drivingHungerLoss
+			LocalPlayer.state.thirst = thirst-drivingThirstLoss
 		else
-			DecorSetFloat(ppid, "hunger", hunger-defaultHungerLoss)
-			DecorSetFloat(ppid, "thirst", thirst-defaultThirstLoss)
+			LocalPlayer.state.hunger = hunger-defaultHungerLoss
+			LocalPlayer.state.thirst = thirst-defaultThirstLoss
 		end
 	end
 end)
@@ -45,8 +45,8 @@ Citizen.CreateThread(function()
 		Citizen.Wait(5000)
 		local localPlayerPed = PlayerPedId()
 		local health = GetEntityHealth(localPlayerPed)
-		local thirst = DecorGetFloat(localPlayerPed,"thirst")
-		local hunger = DecorGetFloat(localPlayerPed,"hunger")
+		local thirst = LocalPlayer.state.thirst
+		local hunger = LocalPlayer.state.hunger
 		if hunger < 15.0 and hunger > 2.0 then
 			SetEntityHealth(localPlayerPed,health-4)
 		end

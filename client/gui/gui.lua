@@ -806,14 +806,14 @@ Citizen.CreateThread(function()
 
 				local result, type = CreateAwaitedKeyboardInput("FMMC_KEY_TIP12N", false,128 + 1)
 				if result and tonumber(result) then
-					DecorSetFloat(PlayerPedId(), "hunger", tonumber(result)+0.000)
+					LocalPlayer.state.hunger = tonumber(result)+0.000
 				end
 				
 			elseif rd and WarMenu.Button("Set Thirst") then
 				local result, type = CreateAwaitedKeyboardInput("FMMC_KEY_TIP12N", false,128 + 1)
 				
 				if result and tonumber(result) then
-					DecorSetFloat(PlayerPedId(), "thirst", tonumber(result)+0.000)
+					LocalPlayer.state.thrist = tonumber(result)+0.000
 				end
 				
 			elseif rd and WarMenu.Button("Set Humanity") then
@@ -878,8 +878,8 @@ Citizen.CreateThread(function()
 									end
 									TriggerEvent('pogressBar:drawBar', consumableItems[item].interactionDelay or 3000, cctext.." "..Consumable.name, nil)
 									Citizen.Wait(consumableItems[item].interactionDelay or 3000)
-									DecorSetFloat(PlayerPedId(), "hunger", DecorGetFloat(PlayerPedId(),"hunger")+consumableItems[item].hunger)
-									DecorSetFloat(PlayerPedId(), "thirst", DecorGetFloat(PlayerPedId(),"thirst")+consumableItems[item].thirst)
+									LocalPlayer.state.hunger =  LocalPlayer.state.hunger+consumableItems[item].hunger
+									LocalPlayer.state.thirst = LocalPlayer.state.thirst+consumableItems[item].thirst
 									
 									local newhealth = GetEntityHealth(PlayerPedId()) + consumableItems[item].health
 									if newhealth > 200 then

@@ -84,8 +84,8 @@ function GenerateBanditCamp(campinfo)
 		choosenPed1 = pedModels[math.random(1, #pedModels)]
 		choosenPed1 = string.upper(choosenPed1)
 		ped = CreatePed(4, GetHashKey(choosenPed1), campx+math.random(-3,3),campy+math.random(-3,3),campz, 0.0, true, false)
-		DecorSetBool(ped, "C8pE53jw", true)
-		DecorSetBool(ped, "bandit", true)
+		Entity(ped).state:set("C8pE53jw", true, true)
+		Entity(ped).state:set("bandit", true, true)
 		SetPedArmour(ped, 20.0)
 		local health = math.random(200,600)
 		SetPedMaxHealth(ped, health)
@@ -187,7 +187,7 @@ Citizen.CreateThread(function()
 		local finished = false -- FindNextPed will turn the first variable to false when it fails to find another ped in the index
 		repeat
 			Wait(20)
-			if not IsPedAPlayer(ped) and NetworkHasControlOfEntity(ped) and not DecorGetBool(ped, "zombie") and not DecorGetBool(ped, "MissionPed") then
+			if not IsPedAPlayer(ped) and NetworkHasControlOfEntity(ped) and not Entity(ped).state.zombie and not Entity(ped).state.MissionPed then
 				local ownedByMe = false
 				local CanNotControl = false
 				for i,camp in pairs(banditcamps) do

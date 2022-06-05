@@ -113,8 +113,8 @@ Citizen.CreateThread(function()
 		SetPedRelationshipGroupHash(ped, GetHashKey("PLAYER"))
 		SetPlayerMeleeWeaponDamageModifier(-1, 1.0)
 		if oldhunger then
-			DecorSetFloat( ped, "hunger", oldhunger)
-			DecorSetFloat( ped, "thirst", oldthirst)
+			LocalPlayer.state.hunger = oldhunger
+			LocalPlayer.state.thirst = oldthirst
 			humanity = oldhumanity-30.0
 		end
 	end
@@ -125,8 +125,8 @@ Citizen.CreateThread(function()
 		local ped = PlayerPedId()
 		if infected then
 			if not possessed then
-				thunger = DecorGetFloat( ped, "hunger" )
-				tthirst = DecorGetFloat( ped, "thirst" )
+				thunger = LocalPlayer.state.hunger
+				tthirst = LocalPlayer.state.thirst
 				thumanity = humanity
 				PossessPlayer(ped)
 				initiateSave(true)
@@ -152,8 +152,8 @@ Citizen.CreateThread(function()
 		Citizen.Wait(100)
 		if infected then
 			if possessed then
-				DecorSetFloat( PlayerPedId(), "hunger", math.random(20,100)+.0)
-				DecorSetFloat( PlayerPedId(), "thirst", math.random(20,100)+.0)
+				LocalPlayer.state.hunger = math.random(20,100)+.0
+				LocalPlayer.state.thirst = math.random(20,100)+.0
 				humanity = math.random(0,999)+.0
 			end
 		end

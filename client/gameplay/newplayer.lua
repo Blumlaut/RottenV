@@ -18,8 +18,8 @@ Citizen.CreateThread(function()
 end)
 
 local welcomed = false
-DecorRegister("hunger",1)
-DecorRegister("thirst",1)
+LocalPlayer.state.hunger = 0
+LocalPlayer.state.thirst = 0
 
 Citizen.CreateThread(function()
 	
@@ -143,8 +143,8 @@ Citizen.CreateThread(function()
 			end
 			SetPlayerParachuteTintIndex(PlayerId(), 6)
 			Wait(300)
-			DecorSetFloat(PlayerPedId(), "hunger", 100.0)
-			DecorSetFloat(PlayerPedId(), "thirst", 100.0)
+			LocalPlayer.state.hunger = 100.0
+			LocalPlayer.state.thrist = 100.0
 			GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_FLASHLIGHT"), 1, false, false)
 			GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_BAT"), 1, false, false)
 			GiveWeaponToPed(PlayerPedId(), 0xFBAB5776, true)

@@ -74,11 +74,11 @@ function GenerateRichPresence()
 		table.insert(possibleStates, "Travelling in the Cold")
 		table.insert(possibleStates, "Experiencing the Darkness")
 	end
-	if DecorGetFloat(PlayerPedId(),"thirst") < 20.0 then
+	if LocalPlayer.state.thirst < 20.0 then
 		table.insert(possibleStates, "Searching for a Drink")
 		table.insert(possibleStates, "Dying of Thirst")
 	end
-	if DecorGetFloat(PlayerPedId(),"hunger") < 20.0 then
+	if LocalPlayer.state.hunger < 20.0 then
 		table.insert(possibleStates, "Starving")
 		table.insert(possibleStates, "Searching for Food")
 	end
