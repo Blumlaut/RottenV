@@ -98,7 +98,7 @@ Citizen.CreateThread(function()
 				end
 			until canSpawn
 			ped = CreatePed(4, choosenAnimal, newX, newY, newZ, 0.0, true, false)
-			DecorSetBool(ped, "C8pE53jw", true)
+			Entity(ped).state:set("C8pE53jw", true, true)
 
 			for i,theFlag in ipairs(choosenAnimalTable.flags) do
 				

@@ -6,7 +6,7 @@ Citizen.CreateThread(function()
 		repeat
 			Wait(1)
 			if not IsPedAPlayer(ped) then
-				if not DecorGetBool(ped,"C8pE53jw") then
+				if not Entity(ped).state.C8pE53jw then
 					NetworkRequestControlOfEntity(ped)
 					Wait(3000)
 					SetEntityAsMissionEntity(ped,true,true)
@@ -19,7 +19,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(2000)
 		if IsPedInAnyVehicle(PlayerPedId(), false) then 
 			local veh = GetVehiclePedIsIn(PlayerPedId(), false)
-			if not DecorGetBool(veh,"C8pE53jw") then
+			if not Entity(veh).state.C8pE53jw then
 				NetworkRequestControlOfEntity(veh)
 				SetVehicleOilLevel(veh, 0.0)
 				for i=0,8 do
@@ -38,7 +38,7 @@ Citizen.CreateThread(function()
 				Wait(500)
 				DeleteVehicle(veh)
 			else
-				DecorSetBool(veh, "C8pE53jw", true)
+				Entity(veh).state:set("C8pE53jw", true, true)
 			end
 		end
 	end

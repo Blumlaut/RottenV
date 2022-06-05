@@ -23,7 +23,6 @@ airdropStarts = {
 
 Citizen.CreateThread(function()
 	airdropLaunched = false
-	DecorRegister("MissionPed", 2)
 	function AirdropEntity(cargoPos,oldx,oldy,oldz)
 		RequestModel("p_parachute1_mp_s")
 		RequestModel("xm_prop_rsply_crate04b")
@@ -100,8 +99,8 @@ Citizen.CreateThread(function()
 		--local heading = angleBetweenPoints( {x=startx,y=starty}, {x=endx,y=endy} )
 		local heading = airdropStarts[smallestdrop].r
 		local pilot = CreatePed(4, GetHashKey("IG_RussianDrunk"), start,starty,height+10, 0.0, true, true)
-		DecorSetBool(pilot, "C8pE53jw", true)
-		DecorSetBool(pilot, "MissionPed", true)
+		Entity(ped).state:set("MissionPed", true, true)
+		Entity(ped).state:set("C8pE53jw", true, true)
 		local cargoplane = CreateVehicle(GetHashKey("titan"), startx,starty, height+.0, heading, true, true)
 		if not NetworkGetEntityIsNetworked(cargoplane) or not NetworkGetEntityIsNetworked(pilot) then
 			NetworkRegisterEntityAsNetworked(cargoplane)
@@ -111,7 +110,7 @@ Citizen.CreateThread(function()
 	--	SetNetworkIdCanMigrate(planeNet, false)
 	--	SetNetworkIdCanMigrate(pilotNet, false)
 		
-		DecorSetBool(cargoplane, "C8pE53jw", true)
+		Entity(cargoplane).state:set("C8pE53jw", true, true)
 		SetPedIntoVehicle(pilot, cargoplane, -1)
 		TaskVehicleDriveToCoord(pilot, cargoplane, endx, endy, height, 500.0, 500.0, "cargoplane", 17039924, 1.0, true)
 		Wait(200)

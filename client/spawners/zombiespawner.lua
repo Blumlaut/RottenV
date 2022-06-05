@@ -479,8 +479,6 @@ Citizen.CreateThread(function()
 	SetRelationshipBetweenGroups(5, GetHashKey("zombeez"), GetHashKey("PLAYER"))
 	SetRelationshipBetweenGroups(5, GetHashKey("zombeez"), GetHashKey("bandit"))
 	SetRelationshipBetweenGroups(5, GetHashKey("PLAYER"), GetHashKey("zombeez"))
-	DecorRegister("C8pE53jw", 2)
-	DecorRegister("zombie", 2)
 
 	SetAiMeleeWeaponDamageModifier(2.0)
 
@@ -522,8 +520,8 @@ Citizen.CreateThread(function()
 			until canSpawn
 			
 			ped = CreatePed(4, GetHashKey(choosenPed), newX, newY, newZ, 0.0, true, false)
-			DecorSetBool(ped, "C8pE53jw", true)
-			DecorSetBool(ped, "zombie", true)
+			Entity(ped).state:set("C8pE53jw", true, true)
+			Entity(ped).state:set("zombie", true, true)
 			SetPedArmour(ped, 100)
 			if WillThisPedBeaBoss() then
 				local th = math.random(3000,18000)
@@ -693,7 +691,7 @@ Citizen.CreateThread(function()
 		local finished = false -- FindNextPed will turn the first variable to false when it fails to find another ped in the index
 		repeat
 			Wait(20)
-			if not IsPedAPlayer(ped) and not IsPedDeadOrDying(ped, true) and DecorGetBool(ped, "zombie") and not DecorGetBool(ped, "MissionPed") and not DecorGetBool(ped, "bandit") and NetworkHasControlOfEntity(ped) then
+			if not IsPedAPlayer(ped) and not IsPedDeadOrDying(ped, true) and Entity(ped).state.zombie and not Entity(ped).state.MissionPed and not Entity(ped).state.bandit and NetworkHasControlOfEntity(ped) then
 				local ownedByMe = false
 				local CanNotControl = false
 				for i,zombie in pairs(zombies) do

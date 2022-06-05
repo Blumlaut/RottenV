@@ -32,7 +32,7 @@ Citizen.CreateThread(function()
 		ped = CreatePed(1, GetHashKey(skin), coords[1], coords[2], coords[3], coords[4], true, true)
 		SetEntityInvincible(ped, true)
 		SetEntityProofs(ped, true, true, true, true, true, true, true, true)
-		DecorSetBool(ped, "C8pE53jw", true)
+		Entity(ped).state:set("C8pE53jw", true, true)
 		SetPedRandomComponentVariation(ped, true)
 		SetPedRandomProps(ped)
 	end
