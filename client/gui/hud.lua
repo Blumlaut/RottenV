@@ -343,7 +343,7 @@ Citizen.CreateThread(function()
 				end
 				
 				local _,AimedAtPed = GetEntityPlayerIsFreeAimingAt(PlayerId())
-				if AimedAtPed and IsEntityAPed(AimedAtPed) and Entity(AimedAtPed).state.IsBoss == 1 then
+				if AimedAtPed and IsEntityAPed(AimedAtPed) and Entity(AimedAtPed).state.IsBoss == true then
 					local percent = (100/(GetEntityMaxHealth(AimedAtPed)-100)) * (GetEntityHealth(AimedAtPed)-100)
 					if percent < 0 then percent = 0 end
 					local percent = percent/100
