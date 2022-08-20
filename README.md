@@ -23,8 +23,11 @@ RottenV:R is a Community-Driven Zombie Gamemode, originally developed by Scammer
 Configuration is done in `config\config.lua` there various gameplay options can be configured, every option is documented in the file, best to just hop in and take a look!
 * Changing/Adding Items
 Items Can be changed in `shared\inventory\items.lua`
+
 Each item has its own id marked at the beginning of it with a comment
+
 **Do not change the Order of the Items, that will cause problems Ingame, instead add new items at the bottom**
+
 An example of a food item is:
 ```
 	{-- 15
