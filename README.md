@@ -17,16 +17,18 @@ RottenV:R is a Community-Driven Zombie Gamemode, originally developed by Scammer
 * [EasyAdmin](https://github.com/Blumlaut/EasyAdmin)
 * [Antichese Anticheat](https://github.com/Blumlaut/anticheese-anticheat)
 
+**Create a database in MySQL and import the SQL file, then configure these in oxmysql, RottenV will automatically establish a database connection.**
+
 
 ## Configuration:
 * Main Configuration
 Configuration is done in `config\config.lua` there various gameplay options can be configured, every option is documented in the file, best to just hop in and take a look!
 * Changing/Adding Items
-Items Can be changed in `shared\inventory\items.lua`
+Items Can be changed in `shared\inventory\items.lua`.
 
-Each item has its own id marked at the beginning of it with a comment
+Each item has its own id marked at the beginning of it with a comment.
 
-**Do not change the Order of the Items, that will cause problems Ingame, instead add new items at the bottom**
+**Do not change the Order of the Items, that will cause problems Ingame, instead add new items at the bottom.**
 
 An example of a food item is:
 ```
