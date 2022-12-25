@@ -849,13 +849,6 @@ Citizen.CreateThread(function()
 			end
 			WarMenu.Display()
 			
-		elseif IsControlJustReleased(0, 244) then --M by default
-			if possessed then
-				TriggerEvent("showNotification", "~r~I am unable to reach for my pocket.")
-			else
-				WarMenu.OpenMenu('Interaction')
-			end
-			collectgarbage()
 		else
 			local currentMenu = WarMenu.CurrentMenu()
 			if currentMenu ~= nil then
@@ -969,4 +962,14 @@ end)
 
 RegisterCommand("help", function()
 	WarMenu.OpenMenu("helpmenu")
-end, false)	
+end, false)
+
+RegisterCommand("menu", function()
+	if possessed then
+		TriggerEvent("showNotification", "~r~I am unable to reach for my pocket.")
+	else
+		WarMenu.OpenMenu('Interaction')
+	end
+end, false)
+
+RegisterKeyMapping('menu', 'Open Interaction Menu', 'keyboard', "m")
