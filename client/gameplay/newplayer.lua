@@ -144,7 +144,7 @@ Citizen.CreateThread(function()
 			SetPlayerParachuteTintIndex(PlayerId(), 6)
 			Wait(300)
 			LocalPlayer.state.hunger = 100.0
-			LocalPlayer.state.thrist = 100.0
+			LocalPlayer.state.thirst = 100.0
 			GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_FLASHLIGHT"), 1, false, false)
 			GiveWeaponToPed(PlayerPedId(), GetHashKey("WEAPON_BAT"), 1, false, false)
 			GiveWeaponToPed(PlayerPedId(), 0xFBAB5776, true)
