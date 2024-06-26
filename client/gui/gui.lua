@@ -813,7 +813,7 @@ Citizen.CreateThread(function()
 				local result, type = CreateAwaitedKeyboardInput("FMMC_KEY_TIP12N", false,128 + 1)
 				
 				if result and tonumber(result) then
-					LocalPlayer.state.thrist = tonumber(result)+0.000
+					LocalPlayer.state.thirst = tonumber(result)+0.000
 				end
 				
 			elseif rd and WarMenu.Button("Set Humanity") then
@@ -849,13 +849,6 @@ Citizen.CreateThread(function()
 			end
 			WarMenu.Display()
 			
-		elseif IsControlJustReleased(0, 244) then --M by default
-			if possessed then
-				TriggerEvent("showNotification", "~r~I am unable to reach for my pocket.")
-			else
-				WarMenu.OpenMenu('Interaction')
-			end
-			collectgarbage()
 		else
 			local currentMenu = WarMenu.CurrentMenu()
 			if currentMenu ~= nil then
@@ -969,4 +962,15 @@ end)
 
 RegisterCommand("help", function()
 	WarMenu.OpenMenu("helpmenu")
-end, false)	
+end, false)
+
+RegisterCommand("menu", function()
+	if possessed then
+		TriggerEvent("showNotification", "~r~I am unable to reach for my pocket.")
+	else
+		WarMenu.OpenMenu('Interaction')
+	end
+	collectgarbage()
+end, false)
+
+RegisterKeyMapping('menu', 'Open Interaction Menu', 'keyboard', "m")
